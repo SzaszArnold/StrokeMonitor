@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "549188149566",
+    "firebase_url": "https://strokemonitor-fd7ed.firebaseio.com",
+    "project_id": "strokemonitor-fd7ed",
+    "storage_bucket": "strokemonitor-fd7ed.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:549188149566:android:1f547204857a6ec90c4c6f",
+        "android_client_info": {
+          "package_name": "com.android.service.strokemonitor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "549188149566-r8leccto92bc73h3tumirgfrpqntfoah.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB47L-VsPlRTnSvqPYNcwCVfd0sKLMAd4Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "549188149566-r8leccto92bc73h3tumirgfrpqntfoah.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
