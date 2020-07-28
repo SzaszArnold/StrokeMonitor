@@ -6,10 +6,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     signingConfigs {
         debug {
-            storeFile file('D:\\key.keystore')
-            storePassword '1595va57'
-            keyAlias 'key'
-            keyPassword '1595va57'
+//keystore data here
         }
     }
     compileSdkVersion 29
