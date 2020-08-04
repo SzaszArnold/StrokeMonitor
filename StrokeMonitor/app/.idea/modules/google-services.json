@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "475856949267",
+    "firebase_url": "https://strokemonitor-c2bf4.firebaseio.com",
+    "project_id": "strokemonitor-c2bf4",
+    "storage_bucket": "strokemonitor-c2bf4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:475856949267:android:7ffcb2634f230d96e1afe6",
+        "android_client_info": {
+          "package_name": "com.android.service.strokemonitor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "475856949267-14r7u3td3e25svut82r6b80u1mvibtl7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.android.service.strokemonitor",
+            "certificate_hash": "4c4361f6fcde7983c8caf2ddf7ce4f243e9c1e4f"
+          }
+        },
+        {
+          "client_id": "475856949267-aichsn0r0csoq8h39e3e5dbm5jchrofs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDv5xO_RDoM7aN8e61pX6Z7TXjLG1X3A5A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "475856949267-aichsn0r0csoq8h39e3e5dbm5jchrofs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

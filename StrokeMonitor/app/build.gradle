@@ -6,7 +6,10 @@ apply plugin: 'kotlin-android-extensions'
 android {
     signingConfigs {
         debug {
-//keystore data here
+            storeFile file('D:\\key.keystore')
+            storePassword '1595va57'
+            keyAlias 'key'
+            keyPassword '1595va57'
         }
     }
     compileSdkVersion 29
@@ -40,7 +43,19 @@ dependencies {
     implementation 'com.huawei.hms:ads-lite:13.4.30.301'
     implementation 'com.huawei.hms:hihealth-base:5.0.0.300'
     implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+}
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.google.gms:google-services:4.2.0'
+    }
 }

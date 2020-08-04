@@ -16,9 +16,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".ChartActivity" />
         <meta-data
                 android:name="com.huawei.hms.client.appid"
-                android:value="appid=YOUR APPID"/>
+                android:value="appid=102485497"/>
     </application>
 
 </manifest>
