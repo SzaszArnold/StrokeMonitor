@@ -102,8 +102,6 @@ TimePickerDialog.OnTimeSetListener {
         Log.d(TAG, "handleSignInResult status = " + result.getStatus() + ", result = " + result.isSuccess());
         if (result.isSuccess) {
             Log.d(TAG, "sign in is success")
-
-            // Obtain the authorization result.
             val authResult = HuaweiIdAuthAPIManager.HuaweiIdAuthAPIService.parseHuaweiIdFromIntent(data)
         }
 
@@ -111,16 +109,11 @@ TimePickerDialog.OnTimeSetListener {
 
     private fun signIn() {
         val scopeList: MutableList<Scope> = ArrayList()
-
-        // Add scopes to apply for. The following only shows an example. Developers need to add scopes according to their specific needs.
-
-        // Add scopes to apply for. The following only shows an example. Developers need to add scopes according to their specific needs.
         scopeList.add(Scope(Scopes.HEALTHKIT_STEP_READ)) // View and save step counts in HUAWEI Health Kit.
-
-        scopeList.add(Scope(Scopes.HEALTHKIT_HEIGHTWEIGHT_READ)) // View and save height and weight in HUAWEI Health Kit.
+        scopeList.add(Scope(Scopes.HEALTHKIT_HEIGHTWEIGHT_READ))
         scopeList.add(Scope(Scopes.HEALTHKIT_OXYGENSTATURATION_READ))
         scopeList.add(Scope(Scopes.HEALTHKIT_OXYGENSTATURATION_WRITE))
-        scopeList.add(Scope(Scopes.HEALTHKIT_HEARTRATE_READ)) // View and save the heart rate data in HUAWEI Health Kit.
+        scopeList.add(Scope(Scopes.HEALTHKIT_HEARTRATE_READ))
         scopeList.add(Scope(Scopes.HEALTHKIT_HEARTRATE_WRITE))
         val authParamsHelper = HuaweiIdAuthParamsHelper(
                 HuaweiIdAuthParams.DEFAULT_AUTH_REQUEST_PARAM)
@@ -128,33 +121,17 @@ TimePickerDialog.OnTimeSetListener {
                 .setAccessToken()
                 .setScopeList(scopeList)
                 .createParams()
-        // Initialize the HuaweiIdAuthService object.
-
-        // Initialize the HuaweiIdAuthService object.
         val authService = HuaweiIdAuthManager.getService(this.applicationContext,
                 authParams)
-
-        // Silent sign-in. If authorization has been granted by the current account, the authorization screen will not display. This is an asynchronous method.
-
-        // Silent sign-in. If authorization has been granted by the current account, the authorization screen will not display. This is an asynchronous method.
         val authHuaweiIdTask: Task<AuthHuaweiId> = authService.silentSignIn()
-        // Add the callback for the call result.
-
-        // Add the callback for the call result.
-        authHuaweiIdTask.addOnSuccessListener { // The silent sign-in is successful.
+        authHuaweiIdTask.addOnSuccessListener {
             Log.i("Huawei", "silentSignIn success")
         }.addOnFailureListener { exception ->
-            // The silent sign-in fails. This indicates that the authorization has not been granted by the current account.
             if (exception is ApiException) {
                 val apiException: ApiException = exception as ApiException
                 Log.i("Huawei", "sign failed status:" + apiException.getStatusCode())
                 Log.i("Huawei", "begin sign in by intent")
-
-                // Call the sign-in API using the getSignInIntent() method.
                 val signInIntent = authService.signInIntent
-
-                // Display the authorization screen by using the startActivityForResult() method of the activity.
-                // Developers can change HihealthKitMainActivity to the actual activity.
                 this@MainActivity.startActivityForResult(signInIntent, REQUEST_SIGN_IN_LOGIN)
             }
         }

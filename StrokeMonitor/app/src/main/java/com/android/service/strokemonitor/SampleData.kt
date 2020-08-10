@@ -1,6 +1,8 @@
 package com.android.service.strokemonitor
 
+import java.util.*
+
 class SampleData (){
-    var time:String = ""
+    lateinit var time: Date
     var value: String= ""
 }

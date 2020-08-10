@@ -16,19 +16,18 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.LargeValueFormatter
 import com.google.firebase.database.*
 import java.text.SimpleDateFormat
+import kotlin.time.ExperimentalTime
+import kotlin.time.milliseconds
+import kotlin.time.minutes
 
 class ChartActivity: AppCompatActivity() {
     private lateinit var firebaseReference: DatabaseReference
     lateinit var sampleDataList: MutableList<SampleData>
+    @ExperimentalTime
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chart)
-      /*  val handler = Handler()
-        handler.postDelayed({
-            populateGraphData(sampleDataList,10F)
-        }, 9000)
-*/
         sampleDataList = mutableListOf()
         this.firebaseReference = FirebaseDatabase.getInstance().getReference("SampleSet")
         firebaseReference.addValueEventListener(object : ValueEventListener {
@@ -53,7 +52,8 @@ class ChartActivity: AppCompatActivity() {
 
     }
 
-fun populateGraphData(sampleData: MutableList<SampleData>,visibilityNumber: Float) {
+@ExperimentalTime
+fun populateGraphData(sampleData: MutableList<SampleData>, visibilityNumber: Float) {
         val barChartView = findViewById<BarChart>(R.id.barChartView)
         val barWidth = 0.15f
         val barSpace = 0.07f
@@ -65,7 +65,8 @@ fun populateGraphData(sampleData: MutableList<SampleData>,visibilityNumber: Floa
         val barDataSet1: BarDataSet
         val barDataSet2: BarDataSet
         for (e in sampleData){
-            xAxisValues.add(e.time)
+            val time= "${e.time.hours}:${e.time.minutes}"
+            xAxisValues.add(time)
             yValueGroup1.add(BarEntry(e.value.toFloat(),e.value.toFloat()))
         }
     barDataSet1 = BarDataSet(yValueGroup1, "")
