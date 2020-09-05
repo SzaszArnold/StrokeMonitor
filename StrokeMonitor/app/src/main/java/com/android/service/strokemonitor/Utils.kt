@@ -14,7 +14,7 @@ import com.huawei.hms.hihealth.data.*
 import com.huawei.hms.hihealth.options.ReadOptions
 import com.huawei.hms.hihealth.result.ReadReply
 import com.huawei.hms.support.hwid.HuaweiIdAuthManager
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_mainpage.*
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -44,7 +44,7 @@ private fun showSampleSet(sampleSet: SampleSet) {
     }
 }
 fun todaySum(context: Context) {
- val hiHealthOptions: HiHealthOptions = HiHealthOptions.builder()
+    val hiHealthOptions: HiHealthOptions = HiHealthOptions.builder()
             .addDataType(DataType.DT_CONTINUOUS_STEPS_DELTA, HiHealthOptions.ACCESS_READ)
             .addDataType(DataType.DT_CONTINUOUS_STEPS_DELTA, HiHealthOptions.ACCESS_WRITE)
             .addDataType(DataType.DT_INSTANTANEOUS_HEIGHT, HiHealthOptions.ACCESS_READ)
@@ -120,8 +120,8 @@ fun readData(context: Context, date: String){
     val signInHuaweiId = HuaweiIdAuthManager.getExtendedAuthResult(hiHealthOptions)
     val dataController: DataController = HuaweiHiHealth.getDataController(context, signInHuaweiId)
     val dataCollector: DataCollector = DataCollector.Builder().setPackageName(context)
-            .setDataType(DataType.DT_INSTANTANEOUS_HEART_RATE)
-            .setDataStreamName("HEART_RATE")
+            .setDataType(DataType.DT_CONTINUOUS_STEPS_DELTA)
+            .setDataStreamName("STEPS_DELTA")
             .setDataGenerateType(DataCollector.DATA_TYPE_RAW)
             .build()
     val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")

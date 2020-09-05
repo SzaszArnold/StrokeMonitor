@@ -5,4 +5,5 @@ import java.util.*
 class SampleData (){
     lateinit var time: Date
     var value: String= ""
+    //user data
 }

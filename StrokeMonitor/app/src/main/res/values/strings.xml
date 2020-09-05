@@ -4,4 +4,9 @@
     <string name="heart_rate_value">Heart Rate value</string>
     <string name="pick_date_and_time">Pick Date and Time</string>
     <string name="push_heart_rate">Push Heart Rate</string>
+    <string name="e_mail">E-mail</string>
+    <string name="registration">Registration</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="log_out">Log Out</string>
 </resources>

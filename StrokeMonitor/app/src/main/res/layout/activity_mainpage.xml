@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/heart_beat_pc_wallpaper"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/btnPickStart"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="125dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="125dp"
+
+            android:background="@android:drawable/btn_default_small"
+            android:text="@string/pick_date_and_time" />
+
+        <TextView
+            android:id="@+id/startTime"
+            android:layout_width="235dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:drawable/editbox_dropdown_light_frame"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/heart_rate_value"
+            android:layout_width="235dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:drawable/editbox_dropdown_light_frame"
+            android:ems="10"
+            android:hint="@string/heart_rate_value"
+            android:inputType="textAutoComplete" />
+
+        <Button
+            android:id="@+id/btnPushBPM"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="125dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="125dp"
+            android:layout_marginBottom="8dp"
+            android:background="@android:drawable/btn_default_small"
+            android:text="@string/push_heart_rate" />
+
+        <Button
+            android:id="@+id/btnChart"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="125dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="125dp"
+            android:layout_marginBottom="8dp"
+            android:background="@android:drawable/btn_default_small"
+            android:text="@string/chart" />
+
+        <Button
+            android:id="@+id/btnOut"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/log_out" />
+
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
