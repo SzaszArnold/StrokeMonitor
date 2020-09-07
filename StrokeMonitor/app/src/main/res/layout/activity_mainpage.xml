@@ -20,6 +20,12 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
+            android:id="@+id/btnProfil"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/ic_menu_sort_by_size" />
+
+        <Button
             android:id="@+id/btnPickStart"
             android:layout_width="wrap_content"
             android:layout_height="36dp"

@@ -67,8 +67,8 @@ class MainPage : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
             startActivity(intent)//daySumBPM(this,startTime.text.toString()) //
             //readData(this,startTime.text.toString())
         }
-        //    btnPushBPM.setOnClickListener { insertDataBPM(this,startTime.text.toString(),heart_rate_value.text.toString().toFloat()) }
-        btnPushBPM.setOnClickListener { todaySum(this) }
+            btnPushBPM.setOnClickListener { insertDataBPM(this,startTime.text.toString(),heart_rate_value.text.toString().toFloat()) }
+      //  btnPushBPM.setOnClickListener { todaySum(this) }
         btnOut.setOnClickListener {
             FirebaseAuth.getInstance().signOut()
 

@@ -33,16 +33,125 @@
             android:id="@+id/editTextRegisterPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/hiad_10_dp"
             android:background="@android:drawable/edit_text"
             android:ems="10"
             android:hint="@string/password"
+            android:layout_marginBottom="@dimen/hiad_10_dp"
             android:inputType="textPassword" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/hiad_10_dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/textViewBirthday"
+                android:layout_width="258dp"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/edit_text"
+                android:ems="10"
+                android:hint="@string/birthday"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/btnBirthday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="125dp"
+                android:layout_marginRight="125dp"
+                android:background="@android:drawable/ic_menu_my_calendar" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/hiad_10_dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <RadioGroup
+                android:id="@+id/registerGender"
+                android:layout_width="163dp"
+                android:layout_height="121dp"
+                android:background="@android:drawable/edit_text"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.069"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.804">
+
+                <RadioButton
+                    android:id="@+id/registerOther"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/other"
+                    android:layout_marginTop="2dp"/>
+
+                <RadioButton
+                    android:id="@+id/registerMan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/man" />
+
+                <RadioButton
+                    android:id="@+id/registerWoman"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/women" />
+            </RadioGroup>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <EditText
+                    android:id="@+id/editTextWeight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="26dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/weight"
+                    android:inputType="number"
+                    android:layout_marginStart="5dp"
+                    android:background="@android:drawable/edit_text"/>
+
+                <EditText
+                    android:id="@+id/editTextHeight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:background="@android:drawable/edit_text"
+                    android:ems="10"
+                    android:hint="@string/height"
+                    android:inputType="number" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
         <Button
             android:id="@+id/btnRegistration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/hiad_10_dp"
-            android:text="@string/registration" />
+            android:text="@string/registration"
+            android:layout_marginTop="10dp"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

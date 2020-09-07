@@ -1,8 +1,10 @@
 package com.android.service.strokemonitor
 
 import android.content.Context
+import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.huawei.hmf.tasks.Task
@@ -25,9 +27,11 @@ fun logger(string: String) {
     Log.i("DataController", string);
 }
 private fun showSampleSet(sampleSet: SampleSet) {
+    var auth: FirebaseAuth = FirebaseAuth.getInstance()
+    val currentUser = auth.currentUser!!.email.toString()
     val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     for (samplePoint in sampleSet.samplePoints) {
-        val reference = FirebaseDatabase.getInstance().getReference("SampleSet")
+        val reference = FirebaseDatabase.getInstance().getReference(currentUser.substringBefore("@"))
         val id = reference.push().key.toString()
         var sampleData=SampleData()
         logger("Sample point type: " + samplePoint.dataType.name)
@@ -184,3 +188,4 @@ fun daySumBPM(context: Context, date: String) {
         logger("$errorCode: $errorMsg")
     }
 }
+
