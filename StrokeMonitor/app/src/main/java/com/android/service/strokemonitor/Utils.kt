@@ -158,6 +158,7 @@ fun daySumBPM(context: Context, date: String) {
     logger("id:$signInHuaweiId")
     val dataController: DataController = HuaweiHiHealth.getDataController(context, signInHuaweiId)
     val dataCollector: DataCollector = DataCollector.Builder().setPackageName(context)
+            //.setDataType(DataType.DT_INSTANTANEOUS_HEART_RATE)
             .setDataType(DataType.DT_INSTANTANEOUS_HEART_RATE)
             .setDataStreamName("HEART_RATE")
             .setDataGenerateType(DataCollector.DATA_TYPE_RAW)
@@ -166,7 +167,8 @@ fun daySumBPM(context: Context, date: String) {
     var startDate: Date? = null
     var endDate: Date? = null
     try {
-        startDate = dateFormat.parse(date)
+        //startDate = dateFormat.parse(date)
+        startDate= dateFormat.parse("2019-01-01 10:10:00")
         endDate = dateFormat.parse(date)
     } catch (exception: ParseException) {
         logger("Time parsing error")
@@ -187,5 +189,20 @@ fun daySumBPM(context: Context, date: String) {
         val errorMsg = HiHealthStatusCodes.getStatusCodeMessage(errorCode!!.toInt())
         logger("$errorCode: $errorMsg")
     }
+
+}
+fun risk(value: Int): String {
+    var str=""
+    if (value==0) str= "0% per year."
+    if (value==1) str= "1.3% per year."
+    if (value==2) str= "2.2% per year."
+    if (value==3) str= "3.2% per year."
+    if (value==4) str= "4% per year."
+    if (value==5) str= "6.7% per year."
+    if (value==6) str= "9.8% per year."
+    if (value==7) str= "9.6% per year."
+    if (value==8) str= "6.7% per year."
+    if (value==9) str= "15.2% per year."
+    return str
 }
 

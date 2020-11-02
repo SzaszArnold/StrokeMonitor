@@ -17,6 +17,22 @@
     <string name="height">Height</string>
     <string name="weight">Weight</string>
     <string name="selected_item">Selected item:</string>
+    <string name="submit">Submit</string>
+    <string name="congestive_heart_failure_lv_dysfunction">Congestive heart failure / LV dysfunction</string>
+    <string name="hypertension">Hypertension</string>
+    <string name="diabetes_mellitus">Diabetes Mellitus</string>
+    <string name="history_of_stroke_tia_or_thromboembolism">History of stroke, TIA or thromboembolism</string>
+    <string name="vascular_disese_history_of_mi_pvd_or_aortic_atherosclerosis">Vascular disese (history of MI, PVD)</string>
+    <string name="age">Age</string>
+    <string name="sex">Sex</string>
+    <string name="_65_74_years_old">65-74 years old</string>
+    <string name="_75_years_old">≥75 years old</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="_1">1</string>
+    <string name="_2">2</string>
+    <string name="_0">0</string>
+    <string name="clinical_features">Clinical Features</string>
 
     <string-array name="Charts">
         <item>None</item>

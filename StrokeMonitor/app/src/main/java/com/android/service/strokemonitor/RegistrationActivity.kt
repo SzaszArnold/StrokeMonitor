@@ -22,6 +22,7 @@ class RegistrationActivity : AppCompatActivity(), DatePickerDialog.OnDateSetList
     private lateinit var auth: FirebaseAuth
     private lateinit var radioGroupGender: RadioGroup
     private lateinit var firebaseReference: DatabaseReference
+    //TODO javitsam ki az xml hivatkozások ahogy tanultam
     private var gender = ""
     var day = 0
     var month: Int = 0

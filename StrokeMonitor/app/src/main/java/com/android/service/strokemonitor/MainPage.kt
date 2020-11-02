@@ -47,6 +47,7 @@ class MainPage : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mainpage)
+        //TODO javitsam ki az xml hivatkozások ahogy tanultam
         auth = FirebaseAuth.getInstance()
         textViewStart = findViewById(R.id.startTime)
         buttonStart = findViewById(R.id.btnPickStart)
@@ -64,8 +65,9 @@ class MainPage : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         btnChart.setOnClickListener {
             val intent = Intent(this@MainPage, ChartActivity::class.java).apply {
             }
-            startActivity(intent)//daySumBPM(this,startTime.text.toString()) //
-            //readData(this,startTime.text.toString())
+            startActivity(intent)
+            daySumBPM(this,startTime.text.toString()) //
+
         }
             btnPushBPM.setOnClickListener { insertDataBPM(this,startTime.text.toString(),heart_rate_value.text.toString().toFloat()) }
       //  btnPushBPM.setOnClickListener { todaySum(this) }
@@ -73,6 +75,10 @@ class MainPage : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
             FirebaseAuth.getInstance().signOut()
 
             val intent = Intent(this@MainPage, MainActivity::class.java).apply {}
+            startActivity(intent)
+        }
+        btnProfil.setOnClickListener {
+            val intent = Intent(this@MainPage, RiskFactorActivity::class.java).apply {}
             startActivity(intent)
         }
     }

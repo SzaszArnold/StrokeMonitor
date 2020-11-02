@@ -19,6 +19,7 @@
         <activity android:name=".ChartActivity" />
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".MainPage" />
+        <activity android:name=".RiskFactorActivity" />
         <meta-data
                 android:name="com.huawei.hms.client.appid"
                 android:value="appid=102485497"/>

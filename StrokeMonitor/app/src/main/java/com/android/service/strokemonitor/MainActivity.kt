@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         auth = FirebaseAuth.getInstance()
+        //TODO javitsam ki az xml hivatkozások ahogy tanultam
         btnRegister.setOnClickListener {
             val intent = Intent(this@MainActivity, RegistrationActivity::class.java).apply {}
             startActivity(intent)
