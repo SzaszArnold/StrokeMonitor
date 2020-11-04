@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         btnRegister.setOnClickListener {
             val intent = Intent(this@MainActivity, RegistrationActivity::class.java).apply {}
             startActivity(intent)
+
         }
         btnLogin.setOnClickListener {
             signIn(findViewById<EditText>(R.id.editTextLoginEmail).text.toString(),findViewById<EditText>(R.id.editTextLoginPassword).text.toString())

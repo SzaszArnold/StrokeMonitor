@@ -1,11 +1,8 @@
 package com.android.service.strokemonitor
 
 import android.content.Context
-import android.text.TextUtils
 import android.util.Log
-import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.huawei.hmf.tasks.Task
 import com.huawei.hms.hihealth.DataController
@@ -16,16 +13,16 @@ import com.huawei.hms.hihealth.data.*
 import com.huawei.hms.hihealth.options.ReadOptions
 import com.huawei.hms.hihealth.result.ReadReply
 import com.huawei.hms.support.hwid.HuaweiIdAuthManager
-import kotlinx.android.synthetic.main.activity_mainpage.*
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
-import kotlin.time.milliseconds
+
 
 fun logger(string: String) {
     Log.i("DataController", string);
 }
+
 private fun showSampleSet(sampleSet: SampleSet) {
     var auth: FirebaseAuth = FirebaseAuth.getInstance()
     val currentUser = auth.currentUser!!.email.toString()
@@ -33,20 +30,21 @@ private fun showSampleSet(sampleSet: SampleSet) {
     for (samplePoint in sampleSet.samplePoints) {
         val reference = FirebaseDatabase.getInstance().getReference(currentUser.substringBefore("@"))
         val id = reference.push().key.toString()
-        var sampleData=SampleData()
+        var sampleData = SampleData()
         logger("Sample point type: " + samplePoint.dataType.name)
         logger("Start: " + dateFormat.format(Date(samplePoint.getStartTime(TimeUnit.MILLISECONDS))))
         logger("End: " + dateFormat.format(Date(samplePoint.getEndTime(TimeUnit.MILLISECONDS))))
-        sampleData.time=Date(samplePoint.getEndTime(TimeUnit.MILLISECONDS))
+        sampleData.time = Date(samplePoint.getEndTime(TimeUnit.MILLISECONDS))
         for (field in samplePoint.dataType.fields) {
             logger("Field: " + field.name.toString() + " Value: " + samplePoint.getFieldValue(field))
-            sampleData.value=samplePoint.getFieldValue(field).toString()
+            sampleData.value = samplePoint.getFieldValue(field).toString()
         }
 
         reference.child(id).setValue(sampleData)
                 .addOnCompleteListener { }
     }
 }
+
 fun todaySum(context: Context) {
     val hiHealthOptions: HiHealthOptions = HiHealthOptions.builder()
             .addDataType(DataType.DT_CONTINUOUS_STEPS_DELTA, HiHealthOptions.ACCESS_READ)
@@ -74,6 +72,7 @@ fun todaySum(context: Context) {
         val errorMsg: String = HiHealthStatusCodes.getStatusCodeMessage(errorCode!!.toInt())
         logger("$errorCode: $errorMsg")
     }
+
 
 }
 
@@ -109,11 +108,14 @@ fun insertDataBPM(context: Context, date: String, value: Float) {
     insertTask.addOnSuccessListener {
         logger("Success insert an SampleSet into HMS core")
         showSampleSet(sampleSet)
-    }.addOnFailureListener {logger("Fail") }
+    }.addOnFailureListener { e ->
+        val errorCode = e.message
+        val errorMsg = HiHealthStatusCodes.getStatusCodeMessage(errorCode!!.toInt())
+        logger("$errorCode: $errorMsg") }
 }
 
 @Throws(ParseException::class)
-fun readData(context: Context, date: String){
+fun readData(context: Context, date: String) {
     val hiHealthOptions: HiHealthOptions = HiHealthOptions.builder()
             .addDataType(DataType.DT_CONTINUOUS_STEPS_DELTA, HiHealthOptions.ACCESS_READ)
             .addDataType(DataType.DT_CONTINUOUS_STEPS_DELTA, HiHealthOptions.ACCESS_WRITE)
@@ -139,9 +141,9 @@ fun readData(context: Context, date: String){
         logger("Success read an SampleSets from HMS core")
         for (sampleSet in readReply.sampleSets) {
             logger("${sampleSet.isEmpty}")
-             showSampleSet(sampleSet!!)
+            showSampleSet(sampleSet!!)
         }
-    }.addOnFailureListener {  }
+    }.addOnFailureListener { }
 
 }
 
@@ -168,7 +170,7 @@ fun daySumBPM(context: Context, date: String) {
     var endDate: Date? = null
     try {
         //startDate = dateFormat.parse(date)
-        startDate= dateFormat.parse("2019-01-01 10:10:00")
+        startDate = dateFormat.parse("2019-01-01 10:10:00")
         endDate = dateFormat.parse(date)
     } catch (exception: ParseException) {
         logger("Time parsing error")
@@ -191,18 +193,20 @@ fun daySumBPM(context: Context, date: String) {
     }
 
 }
+
 fun risk(value: Int): String {
-    var str=""
-    if (value==0) str= "0% per year."
-    if (value==1) str= "1.3% per year."
-    if (value==2) str= "2.2% per year."
-    if (value==3) str= "3.2% per year."
-    if (value==4) str= "4% per year."
-    if (value==5) str= "6.7% per year."
-    if (value==6) str= "9.8% per year."
-    if (value==7) str= "9.6% per year."
-    if (value==8) str= "6.7% per year."
-    if (value==9) str= "15.2% per year."
+    var str = ""
+    if (value == 0) str = "0% per year."
+    if (value == 1) str = "1.3% per year."
+    if (value == 2) str = "2.2% per year."
+    if (value == 3) str = "3.2% per year."
+    if (value == 4) str = "4% per year."
+    if (value == 5) str = "6.7% per year."
+    if (value == 6) str = "9.8% per year."
+    if (value == 7) str = "9.6% per year."
+    if (value == 8) str = "6.7% per year."
+    if (value == 9) str = "15.2% per year."
     return str
 }
+
 
