@@ -3,7 +3,6 @@ package com.android.service.strokemonitor
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
@@ -45,7 +44,6 @@ class MainActivity : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         Log.d(TAG, "signInWithEmail:success")
-                        val user = auth.currentUser
                         val intent = Intent(this@MainActivity, MainPage::class.java).apply {}
                         startActivity(intent)
                     } else {

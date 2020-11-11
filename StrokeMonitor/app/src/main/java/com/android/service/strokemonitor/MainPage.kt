@@ -66,7 +66,9 @@ class MainPage : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
             val intent = Intent(this@MainPage, ChartActivity::class.java).apply {
             }
             startActivity(intent)
-            //daySumBPM(this,startTime.text.toString()) //
+            readData(this,startTime.text.toString())
+           // daySumBPM(this,startTime.text.toString()) //
+           // todaySum(this)
 //trz(this)
         }
             btnPushBPM.setOnClickListener { insertDataBPM(this,startTime.text.toString(),heart_rate_value.text.toString().toFloat()) }
@@ -80,6 +82,7 @@ class MainPage : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         btnProfil.setOnClickListener {
             val intent = Intent(this@MainPage, RiskFactorActivity::class.java).apply {}
             startActivity(intent)
+            trz2(this)
         }
     }
 

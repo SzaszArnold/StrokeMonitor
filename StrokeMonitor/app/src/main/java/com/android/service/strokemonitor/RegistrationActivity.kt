@@ -1,11 +1,9 @@
 package com.android.service.strokemonitor
 
 import android.app.DatePickerDialog
-import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
-import android.text.format.DateFormat
 import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +11,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.acitivity_registration.*
-import kotlinx.android.synthetic.main.activity_mainpage.*
 import java.util.*
 import java.util.regex.Pattern
 
@@ -24,23 +21,21 @@ class RegistrationActivity : AppCompatActivity(), DatePickerDialog.OnDateSetList
     private lateinit var firebaseReference: DatabaseReference
     //TODO javitsam ki az xml hivatkozások ahogy tanultam
     private var gender = ""
-    var day = 0
-    var month: Int = 0
-    var year: Int = 0
-    var myDay = 0
-    var myMonth: Int = 0
-    var myYear: Int = 0
+    private var day = 0
+    private var month: Int = 0
+    private var year: Int = 0
+    private var myDay = 0
+    private var myMonth: Int = 0
+    private var myYear: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.acitivity_registration)
         auth = FirebaseAuth.getInstance()
         radioGroupGender = findViewById(R.id.registerGender)
-        radioGroupGender.setOnCheckedChangeListener(
-                RadioGroup.OnCheckedChangeListener { group, checkedId ->
-                    val radioButton: RadioButton = findViewById(checkedId)
-                    gender = radioButton.text.toString()
-                }
-        )
+        radioGroupGender.setOnCheckedChangeListener { _, checkedId ->
+            val radioButton: RadioButton = findViewById(checkedId)
+            gender = radioButton.text.toString()
+        }
         btnRegistration.setOnClickListener {
             createAccount(findViewById<EditText>(R.id.editTextRegisterEmail).text.toString(),findViewById<EditText>(R.id.editTextRegisterPassword).text.toString())
         }

@@ -30,19 +30,15 @@ class RiskFactorActivity : AppCompatActivity() {
         checkBox5 = findViewById(R.id.checkbox5)
         val listOfCheckBox = listOf(checkBox1, checkBox2, checkBox3, checkBox4, checkBox5)
         radioGroupClinicalAge = findViewById(R.id.clinicalAge)
-        radioGroupClinicalAge.setOnCheckedChangeListener(
-                RadioGroup.OnCheckedChangeListener { group, checkedId ->
-                    val radioButton: RadioButton = findViewById(checkedId)
-                    value += radioButton.hint.toString().toInt()
-                }
-        )
+        radioGroupClinicalAge.setOnCheckedChangeListener { _, checkedId ->
+            val radioButton: RadioButton = findViewById(checkedId)
+            value += radioButton.hint.toString().toInt()
+        }
         radioGroupClinicalSex = findViewById(R.id.clinicalSex)
-        radioGroupClinicalSex.setOnCheckedChangeListener(
-                RadioGroup.OnCheckedChangeListener { group, checkedId ->
-                    val radioButton: RadioButton = findViewById(checkedId)
-                    value += radioButton.hint.toString().toInt()
-                }
-        )
+        radioGroupClinicalSex.setOnCheckedChangeListener { _, checkedId ->
+            val radioButton: RadioButton = findViewById(checkedId)
+            value += radioButton.hint.toString().toInt()
+        }
         btnSubmit.setOnClickListener {
             checkBoxs(listOfCheckBox)
             uploadToFirebase(value)
