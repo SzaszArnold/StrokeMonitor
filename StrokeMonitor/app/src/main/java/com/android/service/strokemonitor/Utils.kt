@@ -44,7 +44,7 @@ private fun showSampleSet(sampleSet: SampleSet) {
             sampleData.value = samplePoint.getFieldValue(field).toString()
         }
 
-      /*  reference.child(id).setValue(sampleData)
+    /* reference.child(id).setValue(sampleData)
                 .addOnCompleteListener { }*/
     }
 }
@@ -61,7 +61,7 @@ fun todaySum(context: Context) {
             .build()
     val signInHuaweiId = HuaweiIdAuthManager.getExtendedAuthResult(hiHealthOptions)
     val dataController: DataController = HuaweiHiHealth.getDataController(context, signInHuaweiId)
-    val todaySummationTask: Task<SampleSet> = dataController.readTodaySummation(DataType.DT_CONTINUOUS_STEPS_DELTA)
+    val todaySummationTask: Task<SampleSet> = dataController.readTodaySummation(DataType.DT_INSTANTANEOUS_HEART_RATE)
     todaySummationTask.addOnSuccessListener { sampleSet ->
         logger("Success read today summation from HMS core")
         logger("size:${sampleSet.samplePoints.size}")
@@ -129,8 +129,8 @@ fun readData(context: Context, date: String) {
             .setDataGenerateType(DataCollector.DATA_TYPE_RAW)
             .build()
     val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
-    val startDate = dateFormat.parse("2020-11-09 01:00:00")
-    val endDate = dateFormat.parse(date)
+    val startDate = dateFormat.parse("2020-11-22 16:50:00")
+    val endDate = dateFormat.parse("2020-11-23 16:50:00")
     logger("StartDate: $startDate, EndDate: $endDate")
     val readOptions = ReadOptions.Builder().read(DataType.DT_INSTANTANEOUS_HEART_RATE)
             .setTimeRange(startDate.time, endDate.time, TimeUnit.MILLISECONDS)

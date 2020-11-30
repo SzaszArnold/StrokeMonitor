@@ -33,11 +33,18 @@
     <string name="_2">2</string>
     <string name="_0">0</string>
     <string name="clinical_features">Clinical Features</string>
+    <string name="selected_chart_type">Selected chart type:</string>
 
-    <string-array name="Charts">
-        <item>None</item>
-        <item>Bar</item>
+    <string-array name="AAChartType">
         <item>Line</item>
-        <item>Pie</item>
+        <item>Bar</item>
+        <item>Column</item>
     </string-array>
+    <string name="title_activity_main_screen">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="charts">Charts</string>
+    <string name="profile">Profile</string>
+    <string name="manual">Manual</string>
 </resources>

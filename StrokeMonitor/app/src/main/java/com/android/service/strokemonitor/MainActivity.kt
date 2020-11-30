@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         val currentUser = auth.currentUser
         Log.d("CurrentUSer", "$currentUser")
         if (currentUser != null) {
-            val intent = Intent(this@MainActivity, MainPage::class.java).apply {}
+            val intent = Intent(this@MainActivity, MainScreen::class.java).apply {}
             startActivity(intent)
         }
     }
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         Log.d(TAG, "signInWithEmail:success")
-                        val intent = Intent(this@MainActivity, MainPage::class.java).apply {}
+                        val intent = Intent(this@MainActivity, MainScreen::class.java).apply {}
                         startActivity(intent)
                     } else {
                         Log.w(TAG, "signInWithEmail:failure", task.exception)

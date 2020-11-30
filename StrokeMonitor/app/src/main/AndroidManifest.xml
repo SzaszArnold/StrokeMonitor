@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.android.service.strokemonitor">
+        package="com.android.service.strokemonitor">
 
     <application
             android:allowBackup="true"
@@ -9,20 +9,22 @@
             android:roundIcon="@mipmap/ic_launcher"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+        <activity
+                android:name=".MainScreen"
+                android:label="@string/title_activity_main_screen" />
         <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ChartActivity" />
         <activity android:name=".RegistrationActivity" />
-        <activity android:name=".MainPage" />
         <activity android:name=".RiskFactorActivity" />
+
         <meta-data
                 android:name="com.huawei.hms.client.appid"
-                android:value="appid=102485497"/>
+                android:value="appid=102485497" />
     </application>
 
 </manifest>
