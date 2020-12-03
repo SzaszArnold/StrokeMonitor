@@ -4,6 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/heart_beat_pc_wallpaper"
         tools:context=".ui.profile.ProfileFragment">
     <LinearLayout
             android:layout_width="match_parent"
@@ -16,28 +17,51 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
         <TextView
-                android:id="@+id/textViewUserName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/hiad_10_dp"
-                android:background="@android:drawable/edit_text"
-                android:ems="10"
-                android:hint="@string/e_mail" />
-        <Button
+            android:id="@+id/textViewUserName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/hiad_10_dp"
+            android:background="@android:drawable/edit_text"
+            android:ems="10"
+            android:hint="@string/e_mail"
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/textViewRisc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/hiad_10_dp"
+            android:background="@android:drawable/edit_text"
+            android:ems="10"
+            android:hint="@string/risc"
+            android:textSize="24sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            tools:layout_editor_absoluteX="64dp"
+            tools:layout_editor_absoluteY="32dp">
+
+            <Button
                 android:id="@+id/btnRisc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/hiad_10_dp"
-                android:background="@android:drawable/ic_menu_sort_by_size"
-                />
-        <Button
+                android:background="@android:drawable/ic_menu_sort_by_size" />
+
+            <Button
                 android:id="@+id/btnOut"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/hiad_10_dp"
-                android:text="@string/log_out"
-                />
+                android:text="@string/log_out" />
 
+
+        </LinearLayout>
     </LinearLayout>
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

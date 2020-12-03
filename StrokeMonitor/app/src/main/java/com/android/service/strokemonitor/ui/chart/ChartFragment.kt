@@ -9,7 +9,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.android.service.strokemonitor.R
 import com.android.service.strokemonitor.SampleData
@@ -50,16 +49,17 @@ class ChartFragment : Fragment() {
             }
         })
     }
+
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         chartViewModel =
-            ViewModelProviders.of(this).get(ChartViewModel::class.java)
+                ViewModelProviders.of(this).get(ChartViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_chart, container, false)
         spinner = root.findViewById(R.id.spinnerChart)
-        aaChartView=root.findViewById(R.id.aa_chart_view)
+        aaChartView = root.findViewById(R.id.aa_chart_view)
         return root
     }
 
@@ -68,17 +68,20 @@ class ChartFragment : Fragment() {
         super.onResume()
         val chartType = resources.getStringArray(R.array.AAChartType)
         val adapter =
-            context?.let { ArrayAdapter(it, android.R.layout.simple_spinner_item, chartType) }
+                context?.let { ArrayAdapter(it, android.R.layout.simple_spinner_item, chartType) }
         spinner.adapter = adapter
 
         spinner.onItemSelectedListener = object :
-            AdapterView.OnItemSelectedListener {
+                AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View, position: Int, id: Long
+                    parent: AdapterView<*>,
+                    view: View, position: Int, id: Long
             ) {
-
-                    populateGraphData(sampleDataList, chartType[position])
+                val array = arrayOf("")
+                for (e in sampleDataList) {
+                    array.plus(arrayOf("${e.time.hours}:${e.time.minutes}", e.value))
+                }
+                populateGraphData(sampleDataList, chartType[position])
 
 
             }
@@ -88,49 +91,57 @@ class ChartFragment : Fragment() {
 
         }
     }
+
     fun populateGraphData(sampleData: MutableList<SampleData>, type: String) {
-        for(e in sampleData){
-            Log.d("Nezzuk meg","${e.value}")
-        }
+        /*  val list= mutableListOf<Pair<String,String>>()
+          for(e in sampleData){
+              list.add( Pair("${e.time.hours}:${e.time.minutes}","${e.value}"))
+          }
+          for(e in list) {
+              Log.d("Tesztek", "${e.first}-----${e.second}")
+
+          }*/
         val aaChartType: AAChartType = chosenChart(type)
         val aaChartModel: AAChartModel = AAChartModel()
-            .chartType(aaChartType)
-            .title("Charts")
-            .backgroundColor("#4b2b7f")
-            .dataLabelsEnabled(true)
-            .yAxisMin(50F)
-            .series(arrayOf(
-                AASeriesElement()
-                    .name("BPM")
-                    .data(arrayOf(
-                        // arrayOf(55,100),
-                        100.00,
-                        133.00,
-                        126.00,
-                        129.00,
-                        121.00,
-                        121.00,
-                        122.00,
-                        119.00,
-                        131.00,
-                        123.00,
-                        92.00,
-                        117.00,
-                        129.00,
-                        156.00,
-                        154.00,
-                        72.00,
-                        90.00,
-                        88.00,
-                        89.00,
-                        90.00,
-                        91.00,
-                        90.00
-                    ))
-            )
-            )
+                .chartType(aaChartType)
+                .title("Charts")
+                .backgroundColor("#4b2b7f")
+                .dataLabelsEnabled(true)
+                .xAxisVisible(false)
+                .gradientColorEnable(true)
+                .yAxisMin(50F)
+                .series(arrayOf(
+                        AASeriesElement()
+                                .name("BPM")
+                                .data(arrayOf(
+                                        arrayOf("15:53", 100),
+                                        arrayOf("15:54", 133),
+                                        arrayOf("15:55", 126),
+                                        arrayOf("15:56", 129),
+                                        arrayOf("15:57", 121),
+                                        arrayOf("15:58", 121),
+                                        arrayOf("15:59", 122),
+                                        arrayOf("16:00", 119),
+                                        arrayOf("16:01", 131),
+                                        arrayOf("16:02", 123),
+                                        arrayOf("16:03", 92),
+                                        arrayOf("16:04", 117),
+                                        arrayOf("16:05", 129),
+                                        arrayOf("16:06", 156),
+                                        arrayOf("16:07", 154),
+                                        arrayOf("16:08", 72),
+                                        arrayOf("16:09", 90),
+                                        arrayOf("16:10", 88),
+                                        arrayOf("16:11", 89),
+                                        arrayOf("16:12", 90),
+                                        arrayOf("16:13", 91),
+                                        arrayOf("16:14", 90)
+                                ))
+                )
+                )
         aaChartView.aa_drawChartWithChartModel(aaChartModel)
     }
+
     private fun chosenChart(type: String): AAChartType {
         var aaChartType = AAChartType.Line
         if (type == "Bar") {
