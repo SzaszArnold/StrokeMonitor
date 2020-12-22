@@ -79,7 +79,8 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="C:\Users\arni-\Desktop\Heart-Beat-PC-Wallpaper.jpg" />
+                                                <entry key="imagePath" value="C:\Users\arni-\Desktop\png-clipart-emergency-personal-safety-app-sos-android.png" />
+                                                <entry key="scalingPercent" value="133" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -111,7 +112,7 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="outputName" value="ic_launcher-back" />
+                                      <entry key="outputName" value="sos" />
                                     </map>
                                   </option>
                                 </PersistentState>

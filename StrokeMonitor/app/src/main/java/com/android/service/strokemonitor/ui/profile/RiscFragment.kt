@@ -31,6 +31,7 @@ class RiscFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val root = inflater.inflate(R.layout.fragment_risc, container, false)
         checkBox1 = root.findViewById(R.id.checkbox1)
         checkBox2 = root.findViewById(R.id.checkbox2)

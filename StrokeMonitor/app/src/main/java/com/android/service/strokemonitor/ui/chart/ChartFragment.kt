@@ -18,12 +18,15 @@ import com.github.aachartmodel.aainfographics.aachartcreator.AAChartView
 import com.github.aachartmodel.aainfographics.aachartcreator.AASeriesElement
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.time.ExperimentalTime
 
 class ChartFragment : Fragment() {
 
     private lateinit var chartViewModel: ChartViewModel
-    private lateinit var spinner: Spinner
+    private lateinit var spinnerFilter: Spinner
+    private lateinit var spinnerChart: Spinner
     private lateinit var aaChartView: AAChartView
     private lateinit var firebaseReference: DatabaseReference
     lateinit var sampleDataList: MutableList<SampleData>
@@ -58,7 +61,8 @@ class ChartFragment : Fragment() {
         chartViewModel =
                 ViewModelProviders.of(this).get(ChartViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_chart, container, false)
-        spinner = root.findViewById(R.id.spinnerChart)
+        spinnerChart = root.findViewById(R.id.spinnerChart)
+        spinnerFilter=root.findViewById(R.id.spinnerFilter)
         aaChartView = root.findViewById(R.id.aa_chart_view)
         return root
     }
@@ -69,21 +73,62 @@ class ChartFragment : Fragment() {
         val chartType = resources.getStringArray(R.array.AAChartType)
         val adapter =
                 context?.let { ArrayAdapter(it, android.R.layout.simple_spinner_item, chartType) }
-        spinner.adapter = adapter
+        spinnerChart.adapter = adapter
 
-        spinner.onItemSelectedListener = object :
+        spinnerChart.onItemSelectedListener = object :
+                AdapterView.OnItemSelectedListener {
+
+            override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View, position: Int, id: Long
+            ) {
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+            }
+
+        }
+        val filterType = resources.getStringArray(R.array.Filters)
+        val adapterFilter =
+                context?.let { ArrayAdapter(it, android.R.layout.simple_spinner_item, filterType) }
+        spinnerFilter.adapter = adapterFilter
+
+        spinnerFilter.onItemSelectedListener = object :
                 AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                     parent: AdapterView<*>,
                     view: View, position: Int, id: Long
             ) {
-                val array = arrayOf("")
-                for (e in sampleDataList) {
-                    array.plus(arrayOf("${e.time.hours}:${e.time.minutes}", e.value))
+                val array = arrayListOf<Any>()
+
+                if(filterType[position]=="Last Hour"){
+                    val calendar: Calendar = Calendar.getInstance()
+                    val hour: Int = calendar.get(Calendar.HOUR_OF_DAY)
+                    for (e in sampleDataList) {
+                        if(e.time.hours==hour-1)
+                            array.add(arrayOf("${e.time.hours}:${e.time.minutes}", e.value))
+                    }
+
+                    populateGraphData(array, chartType[position])
                 }
-                populateGraphData(sampleDataList, chartType[position])
+                if(filterType[position]=="Last Day"){
+                    val calendar: Calendar = Calendar.getInstance()
+                    val day: Int = calendar.get(Calendar.DAY_OF_WEEK)
+                    for (e in sampleDataList) {
+                        if(e.time.day==day-1)
+                            array.add(arrayOf("${e.time.hours}:${e.time.minutes}", e.value))
+                    }
 
+                    populateGraphData(array, chartType[position])
+                }
+                if(filterType[position]=="Last Week"){
+                    for (e in sampleDataList) {
+                            array.add(arrayOf("${e.time.hours}:${e.time.minutes}", e.value))
+                    }
 
+                    populateGraphData(array, chartType[position])
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
@@ -92,55 +137,25 @@ class ChartFragment : Fragment() {
         }
     }
 
-    fun populateGraphData(sampleData: MutableList<SampleData>, type: String) {
-        /*  val list= mutableListOf<Pair<String,String>>()
-          for(e in sampleData){
-              list.add( Pair("${e.time.hours}:${e.time.minutes}","${e.value}"))
-          }
-          for(e in list) {
-              Log.d("Tesztek", "${e.first}-----${e.second}")
-
-          }*/
+    fun populateGraphData(sampleData: ArrayList<Any>, type: String) {
         val aaChartType: AAChartType = chosenChart(type)
         val aaChartModel: AAChartModel = AAChartModel()
                 .chartType(aaChartType)
                 .title("Charts")
                 .backgroundColor("#4b2b7f")
                 .dataLabelsEnabled(true)
-                .xAxisVisible(false)
+                .xAxisVisible(true)
                 .gradientColorEnable(true)
                 .yAxisMin(50F)
                 .series(arrayOf(
                         AASeriesElement()
                                 .name("BPM")
-                                .data(arrayOf(
-                                        arrayOf("15:53", 100),
-                                        arrayOf("15:54", 133),
-                                        arrayOf("15:55", 126),
-                                        arrayOf("15:56", 129),
-                                        arrayOf("15:57", 121),
-                                        arrayOf("15:58", 121),
-                                        arrayOf("15:59", 122),
-                                        arrayOf("16:00", 119),
-                                        arrayOf("16:01", 131),
-                                        arrayOf("16:02", 123),
-                                        arrayOf("16:03", 92),
-                                        arrayOf("16:04", 117),
-                                        arrayOf("16:05", 129),
-                                        arrayOf("16:06", 156),
-                                        arrayOf("16:07", 154),
-                                        arrayOf("16:08", 72),
-                                        arrayOf("16:09", 90),
-                                        arrayOf("16:10", 88),
-                                        arrayOf("16:11", 89),
-                                        arrayOf("16:12", 90),
-                                        arrayOf("16:13", 91),
-                                        arrayOf("16:14", 90)
-                                ))
+                         .data(sampleData.toArray())
                 )
                 )
         aaChartView.aa_drawChartWithChartModel(aaChartModel)
     }
+
 
     private fun chosenChart(type: String): AAChartType {
         var aaChartType = AAChartType.Line

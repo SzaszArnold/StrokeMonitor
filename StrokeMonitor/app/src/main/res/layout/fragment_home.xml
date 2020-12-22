@@ -3,6 +3,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
+    android:paddingBottom="?attr/actionBarSize"
     android:background="@drawable/heart_beat_pc_wallpaper"
         android:layout_height="match_parent"
         tools:context=".ui.home.HomeFragment">
@@ -34,6 +35,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/manual" />
+
+        <TextView
+            android:id="@+id/textViewHint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ems="10"
+            android:scrollbars="vertical"
+            android:background="@android:drawable/edit_text"
+            android:isScrollContainer="true" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

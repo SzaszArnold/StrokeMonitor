@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="?attr/actionBarSize"
     tools:context=".ui.profile.ProfileFragment">
 
     <LinearLayout
@@ -38,6 +39,44 @@
                 android:id="@+id/spinnerChart"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:background="@color/hiad_emui_color_gray_4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/txtViewFilter"
+                android:layout_width="wrap_content"
+                android:text="@string/select_filter"
+                android:layout_height="wrap_content"
+                android:textColor="@color/design_default_color_on_secondary"
+                android:textSize="20sp" />
+
+            <Spinner
+                android:id="@+id/spinnerFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/design_default_color_on_secondary" />
+
+            <EditText
+                android:id="@+id/editSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/design_default_color_on_secondary"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@android:drawable/ic_menu_search"
+                android:textColor="@color/design_default_color_on_secondary" />
+
 
         </LinearLayout>
 

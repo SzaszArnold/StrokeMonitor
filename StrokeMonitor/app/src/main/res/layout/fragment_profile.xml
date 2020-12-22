@@ -20,27 +20,67 @@
 
         <TextView
             android:id="@+id/textViewUserName"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/hiad_10_dp"
             android:background="@android:drawable/edit_text"
             android:ems="10"
             android:hint="@string/e_mail"
-            android:textSize="24sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/textViewRisc"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/hiad_10_dp"
             android:background="@android:drawable/edit_text"
             android:ems="10"
             android:hint="@string/risc"
-            android:textSize="24sp" />
+            android:textSize="12sp" />
+        <TextView
+            android:id="@+id/textViewContact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/hiad_10_dp"
+            android:background="@android:drawable/edit_text"
+            android:ems="10"
+            android:hint="@string/contact_number"
+            android:textSize="12sp" />
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:gravity="center"
+            android:id="@+id/contactLayout"
+            android:layout_gravity="center_vertical"
+            tools:layout_editor_absoluteX="64dp"
+            tools:layout_editor_absoluteY="32dp">
+            <EditText
+                android:id="@+id/editTextContact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/hiad_10_dp"
+                android:background="@android:drawable/edit_text"
+                android:ems="10"
+                android:hint="@string/contact_number"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/hiad_10_dp"
+                android:text="Save" />
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
             tools:layout_editor_absoluteX="64dp"
             tools:layout_editor_absoluteY="32dp">
 
@@ -60,6 +100,13 @@
 
 
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:contentDescription="TODO" />
     </LinearLayout>
 
 
