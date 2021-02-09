@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "511811166845",
+    "project_id": "strokemonitor-34e3c",
+    "storage_bucket": "strokemonitor-34e3c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:511811166845:android:f24db8284adffd9b460714",
+        "android_client_info": {
+          "package_name": "com.example.strokemonitor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "511811166845-1bjcla0m499n97ho260c62qtevfm7jvs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1PS_Dxg6a57HRf62buz1IfRvlQtHPGNc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "511811166845-1bjcla0m499n97ho260c62qtevfm7jvs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
