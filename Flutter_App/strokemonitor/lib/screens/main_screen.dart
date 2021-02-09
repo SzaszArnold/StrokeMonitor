@@ -16,10 +16,12 @@ class MainScreen extends StatelessWidget {
         child: Icon(Icons.add),
         onPressed: () {
           FirebaseFirestore.instance
-              .collection('test/snAAwaCHTcLNvA0XaJRx/text')
+              .collection('test/WmsaOuCowO8CkhRmzAkj/test')
               .snapshots()
-              .listen((event) {
-            print(event);
+              .listen((data) {
+            data.docs.forEach((element) {
+              print(element['text']);
+            });
           });
         },
       ),
