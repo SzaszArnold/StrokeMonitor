@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:strokemonitor/screens/main_screen.dart';
+import 'package:strokemonitor/screens/auth_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:strokemonitor/screens/main_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,9 +16,27 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'StrokeMonitor',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.lightBlue,
+        accentColor: Colors.blueAccent,
+        accentColorBrightness: Brightness.dark,
+        buttonTheme: ButtonTheme.of(context).copyWith(
+          buttonColor: Colors.blue,
+          textTheme: ButtonTextTheme.primary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
       ),
-      home: MainScreen(),
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (ctx, userSnapshot) {
+          if (userSnapshot.hasData) {
+            return MainScreen();
+          } else {
+            return AuthScreen();
+          }
+        },
+      ),
     );
   }
 }
