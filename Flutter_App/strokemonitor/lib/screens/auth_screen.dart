@@ -15,7 +15,7 @@ class _AuthScreenState extends State<AuthScreen> {
   void _submitAuthForm(
     String email,
     String password,
-    String birthday,
+    DateTime birthday,
     String gender,
     String height,
     String weight,

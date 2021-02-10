@@ -14,6 +14,10 @@ class _MyStatefulWidgetState extends State<BottomNavigation> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     Text(
+      'Home',
+      style: optionStyle,
+    ),
+    Text(
       'Profile',
       style: optionStyle,
     ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class AuthForm extends StatefulWidget {
   AuthForm(this.submitFunction, this.isLoading);
@@ -6,12 +7,13 @@ class AuthForm extends StatefulWidget {
   final void Function(
     String email,
     String password,
-    String birthday,
+    DateTime birthday,
     String gender,
     String height,
     String weight,
     bool isLogin,
   ) submitFunction;
+
   @override
   _AuthFormState createState() => _AuthFormState();
 }
@@ -21,11 +23,13 @@ class _AuthFormState extends State<AuthForm> {
   var _isLogin = true;
   String _userEmail = '';
   String _userPassword = '';
-  String _userBirthDay = '';
+  DateTime _userBirthDay;
   String _userGender = '';
   String _userHeight = '';
   String _userWeight = '';
-
+  String select;
+  final List<String> genderList = ["Male", "Female"];
+  Map<int, String> mappedGender = ["Male", "Female"].asMap();
   void _trySubmit() {
     final isValid = _formKey.currentState.validate();
     FocusScope.of(context).unfocus();
@@ -42,6 +46,24 @@ class _AuthFormState extends State<AuthForm> {
         _isLogin,
       );
     }
+  }
+
+  void _pressentDataPicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1800),
+      lastDate: DateTime.now(),
+    ).then(
+      (pickedDate) {
+        if (pickedDate == null) {
+          return;
+        }
+        setState(() {
+          _userBirthDay = pickedDate;
+        });
+      },
+    );
   }
 
   @override
@@ -94,38 +116,6 @@ class _AuthFormState extends State<AuthForm> {
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         TextFormField(
-                          key: ValueKey('birthday'),
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Please enter a valid date.';
-                            }
-                            return null;
-                          },
-                          keyboardType: TextInputType.datetime,
-                          decoration: InputDecoration(
-                            labelText: 'Birthday',
-                          ),
-                          onSaved: (value) {
-                            _userBirthDay = value;
-                          },
-                        ),
-                        TextFormField(
-                          key: ValueKey('gender'),
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Please enter a valid gender.';
-                            }
-                            return null;
-                          },
-                          keyboardType: TextInputType.datetime,
-                          decoration: InputDecoration(
-                            labelText: 'Gender',
-                          ),
-                          onSaved: (value) {
-                            _userGender = value;
-                          },
-                        ),
-                        TextFormField(
                           key: ValueKey('height'),
                           validator: (value) {
                             if (value.isEmpty) {
@@ -133,7 +123,7 @@ class _AuthFormState extends State<AuthForm> {
                             }
                             return null;
                           },
-                          keyboardType: TextInputType.datetime,
+                          keyboardType: TextInputType.number,
                           decoration: InputDecoration(
                             labelText: 'Height',
                           ),
@@ -149,13 +139,73 @@ class _AuthFormState extends State<AuthForm> {
                             }
                             return null;
                           },
-                          keyboardType: TextInputType.datetime,
+                          keyboardType: TextInputType.number,
                           decoration: InputDecoration(
                             labelText: 'Weight',
                           ),
                           onSaved: (value) {
                             _userWeight = value;
                           },
+                        ),
+                        StatefulBuilder(
+                          builder: (_, StateSetter setState) => Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'Gender : ',
+                                style: TextStyle(fontWeight: FontWeight.w400),
+                              ),
+                              ...mappedGender.entries.map(
+                                (MapEntry<int, String> mapEntry) => Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Radio(
+                                      activeColor:
+                                          Theme.of(context).primaryColor,
+                                      groupValue: select,
+                                      value: genderList[mapEntry.key],
+                                      onChanged: (value) => setState(
+                                        () {
+                                          select = value;
+                                          _userGender = value;
+                                          print(_userGender);
+                                        },
+                                      ),
+                                    ),
+                                    Text(mapEntry.value)
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.center,
+                          key: ValueKey('birthday'),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment
+                                .center, //Center Row contents horizontally,
+                            crossAxisAlignment: CrossAxisAlignment
+                                .center, //Center Row contents vertically,
+                            children: <Widget>[
+                              Text(
+                                _userBirthDay == null
+                                    ? 'No Birthdate Chosen!'
+                                    : 'Birthdate: ' +
+                                        DateFormat.yMd().format(_userBirthDay),
+                              ),
+                              FlatButton(
+                                  onPressed: () {
+                                    _pressentDataPicker();
+                                  },
+                                  child: Icon(
+                                    Icons.calendar_today,
+                                    color: Theme.of(context).primaryColor,
+                                  ))
+                            ],
+                          ),
                         ),
                       ],
                     ),
