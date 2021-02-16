@@ -1,0 +1,14 @@
+{
+	"client":{
+		"appType":"1",
+		"cp_id":"5190040000023756093",
+		"product_id":"3629892982708112630",
+		"client_id":"539804367625127104",
+		"client_secret":"123BA72CC381B30498EC5AEB7A41E03F9FC66EA6CF123A0398591EE3A72750B0",
+		"project_id":"3629892982708112630",
+		"app_id":"103681731",
+		"api_key":"CgB6e3x9sk89hIyqtbLMQmrKKldryifhHP6NMZ6B8RVTGcCC3WZA3GFkEd7zDapGEwTcXreGMKADPtaxarVhrnuf",
+		"package_name":"com.example.strokemonitor"
+	},
+	"configuration_version":"1.0"
+}

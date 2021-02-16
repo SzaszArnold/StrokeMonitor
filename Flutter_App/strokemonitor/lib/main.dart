@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:strokemonitor/screens/auth_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:strokemonitor/screens/main_screen.dart';
+import 'package:strokemonitor/screens/stroke_risk_screen.dart';
+import 'package:strokemonitor/widgets/stroke_risk.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +29,9 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: StreamBuilder(
+      home:
+          // StrokeRiskScreen(),
+          StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (ctx, userSnapshot) {
           if (userSnapshot.hasData) {

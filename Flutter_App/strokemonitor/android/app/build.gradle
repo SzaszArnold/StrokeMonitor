@@ -44,13 +44,7 @@ android {
         multiDexEnabled true
     }
     signingConfigs {
-    config {
-            storeFile file('D:\\key.keystore')
-            storePassword '1595va57'
-            keyAlias 'key'
-            keyPassword '1595va57'
-    }
-        debug {
+        config {
             storeFile file('D:\\key.keystore')
             storePassword '1595va57'
             keyAlias 'key'
