@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:strokemonitor/screens/auth_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:strokemonitor/screens/chart_screen.dart';
+import 'package:strokemonitor/screens/contact_person_screen.dart';
 import 'package:strokemonitor/screens/main_screen.dart';
 import 'package:strokemonitor/screens/stroke_risk_screen.dart';
+import 'package:strokemonitor/screens/update_profile_screen.dart';
 import 'package:strokemonitor/widgets/stroke_risk.dart';
 
 void main() async {
@@ -30,17 +32,22 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: StrokeRiskScreen(),
-      /* StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (ctx, userSnapshot) {
-          if (userSnapshot.hasData) {
-            return MainScreen();
-          } else {
-            return AuthScreen();
-          }
-        },
-      ),*/
+      initialRoute: '/',
+      routes: {
+        '/': (context) => StreamBuilder(
+              stream: FirebaseAuth.instance.authStateChanges(),
+              builder: (ctx, userSnapshot) {
+                if (userSnapshot.hasData) {
+                  return MainScreen();
+                } else {
+                  return AuthScreen();
+                }
+              },
+            ),
+        StrokeRiskScreen.routeName: (contex) => StrokeRiskScreen(),
+        UpdateProfileScreen.routeName: (context) => UpdateProfileScreen(),
+        ContactPersonScreen.routeName: (context) => ContactPersonScreen(),
+      },
     );
   }
 }

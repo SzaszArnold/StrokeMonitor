@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:strokemonitor/widgets/main_drawer.dart';
 import 'package:strokemonitor/widgets/stroke_risk.dart';
 
 class StrokeRiskScreen extends StatefulWidget {
+  static const routeName = '/risk';
   @override
   _StrokeRiskScreenState createState() => _StrokeRiskScreenState();
 }
@@ -11,7 +13,7 @@ class _StrokeRiskScreenState extends State<StrokeRiskScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('StrokeMonitor'),
+        title: Text('Stroke Risk'),
       ),
       backgroundColor: Colors.lightBlueAccent,
       body: StrokeRisk(),
