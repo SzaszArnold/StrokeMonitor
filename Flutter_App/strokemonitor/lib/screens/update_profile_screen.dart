@@ -13,7 +13,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       appBar: AppBar(
         title: Text('Update profile'),
       ),
-      backgroundColor: Colors.lightBlueAccent,
+      backgroundColor: Color.fromRGBO(247, 137, 137, 1),
       body: Center(
         child: Text('profile update'),
       ),

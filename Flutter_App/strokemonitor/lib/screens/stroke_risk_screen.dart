@@ -15,7 +15,7 @@ class _StrokeRiskScreenState extends State<StrokeRiskScreen> {
       appBar: AppBar(
         title: Text('Stroke Risk'),
       ),
-      backgroundColor: Colors.lightBlueAccent,
+      backgroundColor: Color.fromRGBO(247, 137, 137, 1),
       body: StrokeRisk(),
     );
   }
