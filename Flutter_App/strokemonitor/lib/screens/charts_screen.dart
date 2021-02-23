@@ -1,5 +1,11 @@
 import 'package:bezier_chart/bezier_chart.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:strokemonitor/models/sample_data.dart';
+
+final _databaseReference = FirebaseDatabase.instance.reference();
+List<SampleData> list = [];
+const List<DataPoint<dynamic>> data = [];
 
 class ChartsScreen extends StatefulWidget {
   @override
@@ -7,6 +13,29 @@ class ChartsScreen extends StatefulWidget {
 }
 
 class _ChartsScreenState extends State<ChartsScreen> {
+  void readData() {
+    _databaseReference
+        .child('arnoldszasz06data')
+        .once()
+        .then((DataSnapshot snapshot) {
+      for (var value in snapshot.value.values) {
+        if (value['value'] != null) {
+          list.add(SampleData(value: double.tryParse(value['value'])));
+        }
+      }
+    });
+  }
+
+  void seee() {
+    print(list.length);
+    for (var value in list) {
+      if (value != null) {
+        print(value.value);
+        data.add(DataPoint(value: value.value));
+      }
+    }
+  }
+
   _onTap(BuildContext context, Widget widget) {
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -21,13 +50,40 @@ class _ChartsScreenState extends State<ChartsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Charts'),
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            FlatButton(
+              onPressed: readData,
+              child: Text('try'),
+            ),
+            FlatButton(
+              onPressed: seee,
+              child: Text('try2'),
+            ),
             ListTile(
-              title: Text("Sample 1"),
+              title: Text("Line"),
+              subtitle: Text("Number Chart"),
+              onTap: () => _onTap(
+                context,
+                sample1(context),
+              ),
+            ),
+            ListTile(
+              title: Text("Bar"),
+              subtitle: Text("Number Chart"),
+              onTap: () => _onTap(
+                context,
+                sample1(context),
+              ),
+            ),
+            ListTile(
+              title: Text("Column"),
               subtitle: Text("Number Chart"),
               onTap: () => _onTap(
                 context,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:strokemonitor/widgets/contact_person.dart';
 
 class ContactPersonScreen extends StatefulWidget {
   static const routeName = '/contact-person';
@@ -15,7 +16,7 @@ class _ContactPersonScreenState extends State<ContactPersonScreen> {
       ),
       backgroundColor: Color.fromRGBO(247, 137, 137, 1),
       body: Center(
-        child: Text('contact'),
+        child: ContactPerson(),
       ),
     );
   }

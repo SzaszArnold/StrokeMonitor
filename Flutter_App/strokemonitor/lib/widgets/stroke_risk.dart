@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class StrokeRisk extends StatefulWidget {
@@ -7,6 +8,7 @@ class StrokeRisk extends StatefulWidget {
 }
 
 class _StrokeRiskState extends State<StrokeRisk> {
+  final _auth = FirebaseAuth.instance;
   Map<int, String> mappedAge = {0: "<65", 1: "65-75", 2: ">75"};
   Map<int, String> mappedGender = {0: "Male", 1: "Female"};
   bool valueCheckBox1 = false;
@@ -33,7 +35,7 @@ class _StrokeRiskState extends State<StrokeRisk> {
     if (totalScore == 9) str = "15.2% per year.";
     FirebaseFirestore.instance
         .collection('risk')
-        .doc("riskTest")
+        .doc("${_auth.currentUser.email}")
         .set({'score': totalScore, 'percentage': str});
   }
 

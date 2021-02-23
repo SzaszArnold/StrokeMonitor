@@ -6,6 +6,7 @@ import 'package:strokemonitor/screens/contact_person_screen.dart';
 import 'package:strokemonitor/screens/main_screen.dart';
 import 'package:strokemonitor/screens/stroke_risk_screen.dart';
 import 'package:strokemonitor/screens/update_profile_screen.dart';
+import 'package:strokemonitor/widgets/FirebaseTry.dart';
 import 'package:strokemonitor/widgets/stroke_risk.dart';
 
 void main() async {

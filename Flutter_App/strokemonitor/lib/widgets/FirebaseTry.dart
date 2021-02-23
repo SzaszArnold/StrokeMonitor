@@ -1,8 +1,25 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FirebaseTry extends StatelessWidget {
+final databaseReference = FirebaseDatabase.instance.reference();
+
+class FirebaseTry extends StatefulWidget {
+  @override
+  _FirebaseTryState createState() => _FirebaseTryState();
+}
+
+class _FirebaseTryState extends State<FirebaseTry> {
+  void readData() {
+    databaseReference
+        .child('arnoldszasz06data')
+        .once()
+        .then((DataSnapshot snapshot) {
+      print('Data : ${snapshot.value}');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,9 +78,10 @@ class FirebaseTry extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          FirebaseFirestore.instance
+          readData();
+          /* FirebaseFirestore.instance
               .collection('test/WmsaOuCowO8CkhRmzAkj/test')
-              .add({'text': 'This was added by click!'});
+              .add({'text': 'This was added by click!'});*/
         },
       ),
     );
