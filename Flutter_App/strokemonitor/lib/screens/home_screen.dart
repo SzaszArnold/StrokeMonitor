@@ -58,21 +58,24 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var position = new DateTime.now();
     print(position);
-    return Center(
-      child: SingleChildScrollView(
-        child: Container(
-          decoration: const BoxDecoration(
-            border: Border(
-              top: BorderSide(width: 1.0, color: Color(0xFFFFDFDFDF)),
-              left: BorderSide(width: 1.0, color: Color(0xFFFFDFDFDF)),
-              right: BorderSide(width: 1.0, color: Color(0xFFFF7F7F7F)),
-              bottom: BorderSide(width: 1.0, color: Color(0xFFFF7F7F7F)),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Center(
+        child: SingleChildScrollView(
+          child: Container(
+            decoration: const BoxDecoration(
+              border: Border(
+                top: BorderSide(width: 1.0, color: Color(0xFFFFDFDFDF)),
+                left: BorderSide(width: 1.0, color: Color(0xFFFFDFDFDF)),
+                right: BorderSide(width: 1.0, color: Color(0xFFFF7F7F7F)),
+                bottom: BorderSide(width: 1.0, color: Color(0xFFFF7F7F7F)),
+              ),
+              color: Color.fromRGBO(250, 232, 230, 1.0),
             ),
-            color: Colors.white,
+            padding: EdgeInsets.all(5),
+            margin: EdgeInsets.all(20),
+            child: Text(prevention[0]),
           ),
-          padding: EdgeInsets.all(5),
-          margin: EdgeInsets.all(20),
-          child: Text(prevention[0]),
         ),
       ),
     );

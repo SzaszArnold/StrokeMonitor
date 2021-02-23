@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'dart:io';
 
 class ContactPerson extends StatefulWidget {
   @override
@@ -9,11 +10,15 @@ class ContactPerson extends StatefulWidget {
 
 class _ContactPersonState extends State<ContactPerson> {
   final _formKey = GlobalKey<FormState>();
-  String _name = "";
-  String _phone = "";
+  String _name = "999";
+  String _phone = "111";
+  String currentPhone = "Not yet!";
+  String currentName = "Not yet!";
   final _auth = FirebaseAuth.instance;
 
   void _trySave() {
+    FocusScope.of(context).unfocus();
+    _formKey.currentState.save();
     FirebaseFirestore.instance
         .collection('usersContact')
         .doc(_auth.currentUser.email)
@@ -23,22 +28,23 @@ class _ContactPersonState extends State<ContactPerson> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    String currentPhone = "Not yet!";
-    String currentName = "Not yet!";
+  void loadData() {
     FirebaseFirestore.instance
         .collection('usersContact')
         .doc(_auth.currentUser.email)
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
-        print(documentSnapshot.data().entries.last.value);
-        currentName = documentSnapshot.data().entries.last.value;
-        currentPhone = documentSnapshot.data().entries.first.value;
+        currentName = documentSnapshot.data().entries.last.value.toString();
+        currentPhone = documentSnapshot.data().entries.first.value.toString();
       }
     });
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    loadData();
+    print(currentName);
     return Center(
       child: Card(
         margin: EdgeInsets.all(20),
@@ -56,6 +62,8 @@ class _ContactPersonState extends State<ContactPerson> {
                         Text(
                           'Current Contact Name : $currentName ',
                           style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                            fontWeight: FontWeight.bold,
                             fontSize: 20,
                           ),
                         ),
@@ -65,8 +73,13 @@ class _ContactPersonState extends State<ContactPerson> {
                         Text(
                           'Current Contact Number: $currentPhone',
                           style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).primaryColor,
                             fontSize: 20,
                           ),
+                        ),
+                        SizedBox(
+                          height: 12,
                         ),
                       ],
                     ),
@@ -109,7 +122,7 @@ class _ContactPersonState extends State<ContactPerson> {
                   IconButton(
                     icon: Icon(Icons.save),
                     onPressed: () {
-                      print(_phone);
+                      _trySave();
                     },
                   ),
                 ],

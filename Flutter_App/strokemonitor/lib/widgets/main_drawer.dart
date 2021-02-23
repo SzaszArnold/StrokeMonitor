@@ -7,13 +7,19 @@ class MainDrawer extends StatelessWidget {
       leading: Icon(
         icon,
         size: 26,
+        color: Color.fromRGBO(153, 42, 35, 1.0),
       ),
-      title: Text(
-        title,
-        style: TextStyle(
-          fontFamily: 'RobotoCondensed',
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
+      title: Container(
+        decoration: const BoxDecoration(
+          color: Color.fromRGBO(250, 232, 230, 1.0),
+        ),
+        child: Text(
+          title,
+          style: TextStyle(
+            fontFamily: 'RobotoCondensed',
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
       onTap: tapHandler,
@@ -55,13 +61,19 @@ class MainDrawer extends StatelessWidget {
             leading: Icon(
               Icons.logout,
               size: 26,
+              color: Color.fromRGBO(153, 42, 35, 1.0),
             ),
-            title: Text(
-              'Log out',
-              style: TextStyle(
-                fontFamily: 'RobotoCondensed',
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+            title: Container(
+              decoration: const BoxDecoration(
+                color: Color.fromRGBO(250, 232, 230, 1.0),
+              ),
+              child: Text(
+                'Log out',
+                style: TextStyle(
+                  fontFamily: 'RobotoCondensed',
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             onTap: () {

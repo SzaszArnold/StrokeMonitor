@@ -6,8 +6,6 @@ import 'package:strokemonitor/screens/contact_person_screen.dart';
 import 'package:strokemonitor/screens/main_screen.dart';
 import 'package:strokemonitor/screens/stroke_risk_screen.dart';
 import 'package:strokemonitor/screens/update_profile_screen.dart';
-import 'package:strokemonitor/widgets/FirebaseTry.dart';
-import 'package:strokemonitor/widgets/stroke_risk.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,11 +19,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'StrokeMonitor',
       theme: ThemeData(
-        primarySwatch: Colors.red,
-        accentColor: Colors.redAccent,
+        primaryColor: Color.fromRGBO(153, 42, 35, 1.0),
+        accentColor: Color.fromRGBO(153, 42, 35, 1.0),
         accentColorBrightness: Brightness.dark,
         buttonTheme: ButtonTheme.of(context).copyWith(
-          buttonColor: Colors.red,
+          buttonColor: Color.fromRGBO(153, 42, 35, 1.0),
           textTheme: ButtonTextTheme.primary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),

@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:strokemonitor/screens/charts_screen.dart';
 import 'package:strokemonitor/screens/home_screen.dart';

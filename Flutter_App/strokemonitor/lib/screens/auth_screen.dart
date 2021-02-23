@@ -67,7 +67,7 @@ class _AuthScreenState extends State<AuthScreen> {
       appBar: AppBar(
         title: Text("StrokeMonitor"),
       ),
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: Color.fromRGBO(212, 125, 119, 1.0),
       body: AuthForm(
         _submitAuthForm,
         _isLoading,
