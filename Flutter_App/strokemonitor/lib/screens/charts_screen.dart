@@ -49,39 +49,132 @@ class _ChartsScreenState extends State<ChartsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String dropdownValue = 'Hour';
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
           children: [
-            FlatButton(
-              onPressed: readData,
-              child: Text('try'),
-            ),
-            FlatButton(
-              onPressed: seee,
-              child: Text('try2'),
+            Container(
+              alignment: Alignment.center,
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Text(
+                    'Select filter: ',
+                    style: TextStyle(
+                      fontSize: 28,
+                      color: Theme.of(context).primaryColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  DropdownButton<String>(
+                    value: dropdownValue,
+                    icon: Icon(Icons.arrow_downward),
+                    iconSize: 24,
+                    elevation: 16,
+                    style: TextStyle(color: Colors.deepPurple),
+                    underline: Container(
+                      height: 2,
+                      color: Colors.deepPurpleAccent,
+                    ),
+                    onChanged: (String newValue) {
+                      setState(() {
+                        dropdownValue = newValue;
+                      });
+                    },
+                    items: <String>['Hour', 'Day', 'Week']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: TextStyle(
+                            fontSize: 28,
+                            color: Theme.of(context).primaryColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ],
+              ),
             ),
             ListTile(
-              title: Text("Line"),
-              subtitle: Text("Number Chart"),
+              title: Text(
+                "Bar",
+                style: TextStyle(
+                  fontSize: 28,
+                  color: Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              subtitle: Container(
+                height: 100,
+                width: double.infinity,
+                child: Image.network(
+                  'https://static.thenounproject.com/png/2339094-200.png',
+                  fit: BoxFit.fitHeight,
+                ),
+              ),
               onTap: () => _onTap(
                 context,
                 sample1(context),
               ),
             ),
+            SizedBox(
+              height: 20,
+            ),
             ListTile(
-              title: Text("Bar"),
-              subtitle: Text("Number Chart"),
+              title: Text(
+                "Line",
+                style: TextStyle(
+                  fontSize: 28,
+                  color: Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              subtitle: Container(
+                height: 100,
+                width: double.infinity,
+                child: Image.network(
+                  'https://icons.iconarchive.com/icons/iconsmind/outline/512/Line-Chart-icon.png',
+                  fit: BoxFit.fitHeight,
+                ),
+              ),
               onTap: () => _onTap(
                 context,
                 sample1(context),
               ),
             ),
+            SizedBox(
+              height: 20,
+            ),
             ListTile(
-              title: Text("Column"),
-              subtitle: Text("Number Chart"),
+              title: Text(
+                "Column",
+                style: TextStyle(
+                  fontSize: 28,
+                  color: Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              subtitle: Container(
+                height: 100,
+                width: double.infinity,
+                child: Image.network(
+                  'https://cdn.onlinewebfonts.com/svg/img_63775.png',
+                  fit: BoxFit.fitHeight,
+                ),
+              ),
               onTap: () => _onTap(
                 context,
                 sample1(context),
