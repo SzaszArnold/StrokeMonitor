@@ -44,8 +44,6 @@ class _ContactPersonState extends State<ContactPerson> {
 
   @override
   Widget build(BuildContext context) {
-    loadData();
-    print(currentName);
     return Center(
       child: Card(
         margin: EdgeInsets.all(20),
@@ -57,34 +55,49 @@ class _ContactPersonState extends State<ContactPerson> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Container(
-                    child: Column(
-                      children: [
-                        Text(
-                          'Current Contact Name : $currentName ',
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                  StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection('usersContact')
+                          .doc(_auth.currentUser.email.substring(
+                              0, _auth.currentUser.email.lastIndexOf('@')))
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        final documents = snapshot.data;
+                        return Container(
+                          child: Column(
+                            children: [
+                              Text(
+                                'Current Contact Name : ${documents['name']} ',
+                                style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 12,
+                              ),
+                              Text(
+                                'Current Contact Number: ${documents['phone']}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).primaryColor,
+                                  fontSize: 20,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 12,
+                              ),
+                            ],
                           ),
-                        ),
-                        SizedBox(
-                          height: 12,
-                        ),
-                        Text(
-                          'Current Contact Number: $currentPhone',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 20,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 12,
-                        ),
-                      ],
-                    ),
-                  ),
+                        );
+                      }),
                   TextFormField(
                     key: ValueKey('name'),
                     validator: (value) {
@@ -115,9 +128,11 @@ class _ContactPersonState extends State<ContactPerson> {
                     ),
                     obscureText: false,
                     onSaved: (value) {
-                      setState(() {
-                        _phone = value;
-                      });
+                      setState(
+                        () {
+                          _phone = value;
+                        },
+                      );
                     },
                   ),
                   IconButton(
