@@ -21,7 +21,8 @@ class _ContactPersonState extends State<ContactPerson> {
     _formKey.currentState.save();
     FirebaseFirestore.instance
         .collection('usersContact')
-        .doc(_auth.currentUser.email)
+        .doc(_auth.currentUser.email
+            .substring(0, _auth.currentUser.email.lastIndexOf('@')))
         .set({
       'name': _name,
       'phone': _phone,

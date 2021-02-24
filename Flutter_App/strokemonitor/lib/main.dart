@@ -5,7 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:strokemonitor/screens/contact_person_screen.dart';
 import 'package:strokemonitor/screens/main_screen.dart';
 import 'package:strokemonitor/screens/stroke_risk_screen.dart';
-import 'package:strokemonitor/screens/update_profile_screen.dart';
+import 'package:strokemonitor/screens/profile_data_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
               },
             ),
         StrokeRiskScreen.routeName: (contex) => StrokeRiskScreen(),
-        UpdateProfileScreen.routeName: (context) => UpdateProfileScreen(),
+        ProfileDataScreen.routeName: (context) => ProfileDataScreen(),
         ContactPersonScreen.routeName: (context) => ContactPersonScreen(),
       },
     );

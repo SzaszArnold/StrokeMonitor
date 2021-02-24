@@ -35,7 +35,8 @@ class _StrokeRiskState extends State<StrokeRisk> {
     if (totalScore == 9) str = "15.2% per year.";
     FirebaseFirestore.instance
         .collection('risk')
-        .doc("${_auth.currentUser.email}")
+        .doc(_auth.currentUser.email
+            .substring(0, _auth.currentUser.email.lastIndexOf('@')))
         .set({'score': totalScore, 'percentage': str});
   }
 

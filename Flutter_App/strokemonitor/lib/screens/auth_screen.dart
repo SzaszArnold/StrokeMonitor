@@ -40,7 +40,8 @@ class _AuthScreenState extends State<AuthScreen> {
 
       FirebaseFirestore.instance
           .collection('users')
-          .doc(authResult.user.uid)
+          .doc(_auth.currentUser.email
+              .substring(0, _auth.currentUser.email.lastIndexOf('@')))
           .set({
         'birthday': birthday,
         'gender': gender,

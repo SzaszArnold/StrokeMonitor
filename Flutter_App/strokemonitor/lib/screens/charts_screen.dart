@@ -26,16 +26,6 @@ class _ChartsScreenState extends State<ChartsScreen> {
     });
   }
 
-  void seee() {
-    print(list.length);
-    for (var value in list) {
-      if (value != null) {
-        print(value.value);
-        data.add(DataPoint(value: value.value));
-      }
-    }
-  }
-
   _onTap(BuildContext context, Widget widget) {
     Navigator.of(context).push(
       MaterialPageRoute(

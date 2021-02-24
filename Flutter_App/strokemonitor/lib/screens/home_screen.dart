@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
+  int position = DateTime.now().weekday.toInt();
   List<String> prevention = [
     "1. Lower blood pressure\n" +
         "High blood pressure is a huge factor, doubling or even quadrupling your stroke risk if it is not controlled. High blood pressure is the biggest contributor to the risk of stroke in both men and women. Monitoring blood pressure and, if it is elevated, treating it, is probably the biggest difference people can make to their vascular health.\n" +
@@ -56,7 +57,6 @@ class HomeScreen extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
-    var position = new DateTime.now();
     print(position);
     return Scaffold(
       backgroundColor: Colors.white,
@@ -74,7 +74,7 @@ class HomeScreen extends StatelessWidget {
             ),
             padding: EdgeInsets.all(5),
             margin: EdgeInsets.all(20),
-            child: Text(prevention[0]),
+            child: Text(prevention[position - 1]),
           ),
         ),
       ),

@@ -54,6 +54,15 @@ class _AuthFormState extends State<AuthForm> {
       initialDate: DateTime.now(),
       firstDate: DateTime(1800),
       lastDate: DateTime.now(),
+      builder: (BuildContext context, Widget child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: Colors.red,
+            accentColor: Colors.red,
+          ),
+          child: child,
+        );
+      },
     ).then(
       (pickedDate) {
         if (pickedDate == null) {

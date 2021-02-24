@@ -37,19 +37,25 @@ class MainDrawer extends StatelessWidget {
             padding: EdgeInsets.all(20),
             alignment: Alignment.centerLeft,
             color: Theme.of(context).accentColor,
-            child: Text(
-              'Profile',
-              style: TextStyle(
-                  fontWeight: FontWeight.w900,
-                  fontSize: 30,
-                  color: Colors.black),
+            child: ListTile(
+              title: Text(
+                'Profile',
+                style: TextStyle(
+                    fontWeight: FontWeight.w900,
+                    fontSize: 30,
+                    color: Colors.black),
+              ),
+              subtitle: Text(
+                'Hi ${FirebaseAuth.instance.currentUser.email.substring(0, FirebaseAuth.instance.currentUser.email.lastIndexOf('@'))}',
+                style: TextStyle(fontSize: 24, color: Colors.black),
+              ),
             ),
           ),
           SizedBox(
             height: 20,
           ),
-          buildListTile('Update profile', Icons.person, () {
-            Navigator.of(context).pushNamed('/update-profile');
+          buildListTile('Profile data', Icons.person, () {
+            Navigator.of(context).pushNamed('/profile-data');
           }),
           buildListTile('Contact person', Icons.contact_phone, () {
             Navigator.of(context).pushNamed('/contact-person');
