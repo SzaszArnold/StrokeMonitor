@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:strokemonitor/widgets/auth/auth_form.dart';
+import 'package:intl/intl.dart';
 
 class AuthScreen extends StatefulWidget {
   @override
@@ -43,7 +44,7 @@ class _AuthScreenState extends State<AuthScreen> {
           .doc(_auth.currentUser.email
               .substring(0, _auth.currentUser.email.lastIndexOf('@')))
           .set({
-        'birthday': birthday,
+        'birthday': DateFormat.yMd().format(birthday),
         'gender': gender,
         'height': height,
         'weight': weight,

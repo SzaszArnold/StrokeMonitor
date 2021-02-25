@@ -14,7 +14,7 @@ class _ProfileDataScreenState extends State<ProfileDataScreen> {
       appBar: AppBar(
         title: Text('Profile data'),
       ),
-      backgroundColor: Color.fromRGBO(247, 137, 137, 1),
+      backgroundColor: Color.fromRGBO(250, 232, 230, 1.0),
       body: ProfileData(),
     );
   }

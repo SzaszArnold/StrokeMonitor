@@ -78,6 +78,7 @@ class _ChartsScreenState extends State<ChartsScreen> {
                     onChanged: (String newValue) {
                       setState(() {
                         dropdownValue = newValue;
+                        //for (var value in list) print('${value.value}');
                       });
                     },
                     items: <String>['Hour', 'Day', 'Week']

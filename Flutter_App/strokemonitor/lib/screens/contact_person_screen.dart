@@ -14,7 +14,7 @@ class _ContactPersonScreenState extends State<ContactPersonScreen> {
       appBar: AppBar(
         title: Text('Contact Person'),
       ),
-      backgroundColor: Color.fromRGBO(247, 137, 137, 1),
+      backgroundColor: Color.fromRGBO(250, 232, 230, 1.0),
       body: Center(
         child: ContactPerson(),
       ),
