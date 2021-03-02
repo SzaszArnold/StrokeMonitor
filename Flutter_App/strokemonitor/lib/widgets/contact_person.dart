@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'dart:io';
+import 'package:firebase_database/firebase_database.dart';
+
+import 'dart:async';
 
 class ContactPerson extends StatefulWidget {
   @override
@@ -15,7 +17,32 @@ class _ContactPersonState extends State<ContactPerson> {
   String currentPhone = "Not yet!";
   String currentName = "Not yet!";
   final _auth = FirebaseAuth.instance;
+//------------------
+  final databaseReference = FirebaseDatabase.instance.reference();
+  void readData() {
+    databaseReference.child('arnoldszasz06data').once().then(
+      (DataSnapshot snapshot) {
+        print('Data : ${snapshot.value['arni']}');
+      },
+    );
+  }
 
+  Future<String> _future;
+  @override
+  void initState() {
+    super.initState();
+    setUpTimedFetch();
+  }
+
+  setUpTimedFetch() {
+    Timer.periodic(Duration(milliseconds: 5000), (timer) {
+      setState(() {
+        _future = Future.value(timer.tick.toString());
+      });
+    });
+  }
+
+//--------------
   void _trySave() {
     FocusScope.of(context).unfocus();
     _formKey.currentState.save();
@@ -55,6 +82,20 @@ class _ContactPersonState extends State<ContactPerson> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
+                  FutureBuilder<String>(
+                    future: _future,
+                    builder: (context, snapshot) {
+                      databaseReference.child('arnoldszasz06data').once().then(
+                        (DataSnapshot snapshot) {
+                          print('Data : ${snapshot.value['arni']}');
+                        },
+                      );
+
+                      return Center(
+                        child: Text('Data : data'),
+                      );
+                    },
+                  ),
                   StreamBuilder(
                       stream: FirebaseFirestore.instance
                           .collection('usersContact')
