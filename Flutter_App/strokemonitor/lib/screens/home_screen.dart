@@ -1,7 +1,25 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:io';
 
-class HomeScreen extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  void startServiceInPlatform() async {
+    if (Platform.isAndroid) {
+      var methodChannel = MethodChannel("com.example.strokemonitor");
+      String data = await methodChannel.invokeMethod("startService");
+      debugPrint(data);
+    }
+  }
+
   int position = DateTime.now().weekday.toInt();
+
   List<String> prevention = [
     "1. Lower blood pressure\n" +
         "High blood pressure is a huge factor, doubling or even quadrupling your stroke risk if it is not controlled. High blood pressure is the biggest contributor to the risk of stroke in both men and women. Monitoring blood pressure and, if it is elevated, treating it, is probably the biggest difference people can make to their vascular health.\n" +
@@ -55,28 +73,41 @@ class HomeScreen extends StatelessWidget {
         "•\tUse quit-smoking aids, such as nicotine pills or patches, counseling, or medicine.\n" +
         "•\tDon't give up. Most smokers need several tries to quit. See each attempt as bringing you one step closer to successfully beating the habit.\n"
   ];
+
   @override
   Widget build(BuildContext context) {
     print(position);
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(
-        child: SingleChildScrollView(
-          child: Container(
-            decoration: const BoxDecoration(
-              border: Border(
-                top: BorderSide(width: 1.0, color: Color(0xFFFFDFDFDF)),
-                left: BorderSide(width: 1.0, color: Color(0xFFFFDFDFDF)),
-                right: BorderSide(width: 1.0, color: Color(0xFFFF7F7F7F)),
-                bottom: BorderSide(width: 1.0, color: Color(0xFFFF7F7F7F)),
-              ),
-              color: Color.fromRGBO(250, 232, 230, 1.0),
+      body: Column(
+        children: [
+          Center(
+            child: RaisedButton(
+              child: Text("Start Background"),
+              onPressed: () {
+                startServiceInPlatform();
+              },
             ),
-            padding: EdgeInsets.all(5),
-            margin: EdgeInsets.all(20),
-            child: Text(prevention[position - 1]),
           ),
-        ),
+          Center(
+            child: SingleChildScrollView(
+              child: Container(
+                decoration: const BoxDecoration(
+                  border: Border(
+                    top: BorderSide(width: 1.0, color: Color(0xFFFFDFDFDF)),
+                    left: BorderSide(width: 1.0, color: Color(0xFFFFDFDFDF)),
+                    right: BorderSide(width: 1.0, color: Color(0xFFFF7F7F7F)),
+                    bottom: BorderSide(width: 1.0, color: Color(0xFFFF7F7F7F)),
+                  ),
+                  color: Color.fromRGBO(250, 232, 230, 1.0),
+                ),
+                padding: EdgeInsets.all(5),
+                margin: EdgeInsets.all(20),
+                child: Text(prevention[position - 1]),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

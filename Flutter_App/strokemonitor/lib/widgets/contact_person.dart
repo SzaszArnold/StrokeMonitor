@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
 import 'dart:async';
 
@@ -16,6 +18,7 @@ class _ContactPersonState extends State<ContactPerson> {
   String _phone = "111";
   String currentPhone = "Not yet!";
   String currentName = "Not yet!";
+  String value = "no";
   final _auth = FirebaseAuth.instance;
 //------------------
   final databaseReference = FirebaseDatabase.instance.reference();
@@ -56,19 +59,6 @@ class _ContactPersonState extends State<ContactPerson> {
     });
   }
 
-  void loadData() {
-    FirebaseFirestore.instance
-        .collection('usersContact')
-        .doc(_auth.currentUser.email)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      if (documentSnapshot.exists) {
-        currentName = documentSnapshot.data().entries.last.value.toString();
-        currentPhone = documentSnapshot.data().entries.first.value.toString();
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -87,12 +77,16 @@ class _ContactPersonState extends State<ContactPerson> {
                     builder: (context, snapshot) {
                       databaseReference.child('arnoldszasz06data').once().then(
                         (DataSnapshot snapshot) {
-                          print('Data : ${snapshot.value['arni']}');
+                          setState(
+                            () {
+                              value = '${snapshot.value['arni']}';
+                            },
+                          );
                         },
                       );
 
                       return Center(
-                        child: Text('Data : data'),
+                        child: Text('${value}'),
                       );
                     },
                   ),
@@ -113,6 +107,14 @@ class _ContactPersonState extends State<ContactPerson> {
                         return Container(
                           child: Column(
                             children: [
+                              Center(
+                                child: FlatButton(
+                                    child: Text('Phone Call'),
+                                    onPressed: () {
+                                      FlutterPhoneDirectCaller.callNumber(
+                                          '${documents['phone']}');
+                                    }),
+                              ),
                               Text(
                                 'Current Contact Name : ${documents['name']} ',
                                 style: TextStyle(
