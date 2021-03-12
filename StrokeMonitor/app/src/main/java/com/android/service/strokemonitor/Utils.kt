@@ -117,7 +117,8 @@ fun insertDataBPM(context: Context, date: String, value: Float) {
 }
 
 @Throws(ParseException::class)
-fun readData(context: Context, date: String) {
+//fun readData(context: Context, date: String)
+fun readData(context: Context) {
     val hiHealthOptions: HiHealthOptions = HiHealthOptions.builder()
             .addDataType(DataType.DT_INSTANTANEOUS_HEART_RATE, HiHealthOptions.ACCESS_READ)
             .build()

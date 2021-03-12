@@ -23,16 +23,13 @@ class _StrokeRiskState extends State<StrokeRisk> {
     var totalScore = 0;
     totalScore = ageScore + genderScore + riskScore;
     var str = "0% per year.";
-    if (totalScore == 0) str = "0% per year.";
-    if (totalScore == 1) str = "1.3% per year.";
-    if (totalScore == 2) str = "2.2% per year.";
-    if (totalScore == 3) str = "3.2% per year.";
-    if (totalScore == 4) str = "4% per year.";
-    if (totalScore == 5) str = "6.7% per year.";
-    if (totalScore == 6) str = "9.8% per year.";
-    if (totalScore == 7) str = "9.6% per year.";
-    if (totalScore == 8) str = "6.7% per year.";
-    if (totalScore == 9) str = "15.2% per year.";
+    if (totalScore == 0) str = "1.9% per year.";
+    if (totalScore == 1) str = "2.8% per year.";
+    if (totalScore == 2) str = "4% per year.";
+    if (totalScore == 3) str = "5.9% per year.";
+    if (totalScore == 4) str = "8.5% per year.";
+    if (totalScore == 5) str = "12.5% per year.";
+    if (totalScore == 6) str = "18.2% per year.";
     FirebaseFirestore.instance
         .collection('risk')
         .doc(_auth.currentUser.email

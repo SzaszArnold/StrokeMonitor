@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
-
 import 'dart:async';
 
 class ContactPerson extends StatefulWidget {
@@ -34,11 +33,11 @@ class _ContactPersonState extends State<ContactPerson> {
   @override
   void initState() {
     super.initState();
-    setUpTimedFetch();
+    // setUpTimedFetch();
   }
 
   setUpTimedFetch() {
-    Timer.periodic(Duration(milliseconds: 5000), (timer) {
+    Timer.periodic(Duration(milliseconds: 100000), (timer) {
       setState(() {
         _future = Future.value(timer.tick.toString());
       });
@@ -72,7 +71,7 @@ class _ContactPersonState extends State<ContactPerson> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  FutureBuilder<String>(
+                  /* FutureBuilder<String>(
                     future: _future,
                     builder: (context, snapshot) {
                       databaseReference.child('arnoldszasz06data').once().then(
@@ -89,7 +88,7 @@ class _ContactPersonState extends State<ContactPerson> {
                         child: Text('${value}'),
                       );
                     },
-                  ),
+                  ),*/
                   StreamBuilder(
                       stream: FirebaseFirestore.instance
                           .collection('usersContact')
@@ -115,25 +114,46 @@ class _ContactPersonState extends State<ContactPerson> {
                                           '${documents['phone']}');
                                     }),
                               ),
-                              Text(
-                                'Current Contact Name : ${documents['name']} ',
-                                style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: <Widget>[
+                                  Icon(Icons.contact_phone_rounded),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    '${documents['name']}',
+                                    key: ValueKey('contactName'),
+                                    style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                ],
                               ),
                               SizedBox(
                                 height: 12,
                               ),
-                              Text(
-                                'Current Contact Number: ${documents['phone']}',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).primaryColor,
-                                  fontSize: 20,
-                                ),
-                              ),
+                              Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    Icon(Icons.phone),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      '${documents['phone']}',
+                                      key: ValueKey('contactPhone'),
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Theme.of(context).primaryColor,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ]),
                               SizedBox(
                                 height: 12,
                               ),
@@ -160,7 +180,7 @@ class _ContactPersonState extends State<ContactPerson> {
                   TextFormField(
                     key: ValueKey('phone'),
                     validator: (value) {
-                      if (value.isEmpty || value.length < 8) {
+                      if (value.isEmpty || value.length < 10) {
                         return 'Phone number must be at least 10 characters long.';
                       }
                       return null;
@@ -179,9 +199,12 @@ class _ContactPersonState extends State<ContactPerson> {
                     },
                   ),
                   IconButton(
+                    key: ValueKey('saveContact'),
                     icon: Icon(Icons.save),
                     onPressed: () {
-                      _trySave();
+                      setState(() {
+                        _trySave();
+                      });
                     },
                   ),
                 ],

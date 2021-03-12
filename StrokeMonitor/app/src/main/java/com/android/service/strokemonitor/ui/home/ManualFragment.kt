@@ -15,6 +15,7 @@ import android.widget.TextView
 import android.widget.TimePicker
 import androidx.fragment.app.Fragment
 import com.android.service.strokemonitor.R
+import com.android.service.strokemonitor.readData
 import com.google.firebase.auth.FirebaseAuth
 import com.huawei.hmf.tasks.Task
 import com.huawei.hms.common.ApiException
@@ -66,6 +67,10 @@ TimePickerDialog.OnTimeSetListener {
         signIn()
         val btnChart: Button=root.findViewById(R.id.btnChart)
         btnChart.setOnClickListener {
+            context?.let { it1 ->
+                readData(it1)
+            }
+
             /*  val intent = Intent(this@MainPage, ChartActivity::class.java).apply {
               }
               startActivity(intent)*/
@@ -132,10 +137,7 @@ TimePickerDialog.OnTimeSetListener {
 
     private fun signIn() {
         val scopeList: MutableList<Scope> = ArrayList()
-        scopeList.add(Scope(Scopes.HEALTHKIT_STEP_READ)) // View and save step counts in HUAWEI Health Kit.
-        scopeList.add(Scope(Scopes.HEALTHKIT_HEIGHTWEIGHT_READ))
-        scopeList.add(Scope(Scopes.HEALTHKIT_OXYGENSTATURATION_READ))
-        scopeList.add(Scope(Scopes.HEALTHKIT_OXYGENSTATURATION_WRITE))
+
         scopeList.add(Scope(Scopes.HEALTHKIT_HEARTRATE_READ))
         scopeList.add(Scope(Scopes.HEALTHKIT_HEARTRATE_WRITE))
         val authParamsHelper = HuaweiIdAuthParamsHelper(

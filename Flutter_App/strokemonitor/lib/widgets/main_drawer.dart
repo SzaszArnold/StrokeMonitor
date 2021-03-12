@@ -15,6 +15,7 @@ class MainDrawer extends StatelessWidget {
         ),
         child: Text(
           title,
+          key: ValueKey('nav$title'),
           style: TextStyle(
             fontFamily: 'RobotoCondensed',
             fontSize: 24,
@@ -29,6 +30,7 @@ class MainDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      key: ValueKey('drawer'),
       child: Column(
         children: <Widget>[
           Container(
@@ -48,6 +50,7 @@ class MainDrawer extends StatelessWidget {
               subtitle: Text(
                 'Hi ${FirebaseAuth.instance.currentUser.email.substring(0, FirebaseAuth.instance.currentUser.email.lastIndexOf('@'))}',
                 style: TextStyle(fontSize: 24, color: Colors.black),
+                key: ValueKey('userText'),
               ),
             ),
           ),

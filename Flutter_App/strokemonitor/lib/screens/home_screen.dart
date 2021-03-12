@@ -73,16 +73,17 @@ class _HomeScreenState extends State<HomeScreen> {
         "•\tUse quit-smoking aids, such as nicotine pills or patches, counseling, or medicine.\n" +
         "•\tDon't give up. Most smokers need several tries to quit. See each attempt as bringing you one step closer to successfully beating the habit.\n"
   ];
-
   @override
   Widget build(BuildContext context) {
+    startServiceInPlatform();
     print(position);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
         children: [
           Center(
-            child: RaisedButton(
+            child: FloatingActionButton(
+              key: Key('start'),
               child: Text("Start Background"),
               onPressed: () {
                 startServiceInPlatform();
@@ -103,7 +104,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 padding: EdgeInsets.all(5),
                 margin: EdgeInsets.all(20),
-                child: Text(prevention[position - 1]),
+                child: Text(
+                  prevention[position - 1],
+                  key: Key('text'),
+                ),
               ),
             ),
           ),

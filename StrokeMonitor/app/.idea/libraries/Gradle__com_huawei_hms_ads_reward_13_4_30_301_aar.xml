@@ -3,6 +3,7 @@
     <CLASSES>
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/676475105a6b9e96f8bc70b5e22ac01f/jetified-ads-reward-13.4.30.301/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/676475105a6b9e96f8bc70b5e22ac01f/jetified-ads-reward-13.4.30.301/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/676475105a6b9e96f8bc70b5e22ac01f/jetified-ads-reward-13.4.30.301/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
