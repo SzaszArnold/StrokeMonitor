@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:strokemonitor/widgets/monitor.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -10,6 +12,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String value = "no";
+  final databaseReference = FirebaseDatabase.instance.reference();
   void startServiceInPlatform() async {
     if (Platform.isAndroid) {
       var methodChannel = MethodChannel("com.example.strokemonitor");
@@ -81,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          Center(
+          /* Center(
             child: FloatingActionButton(
               key: Key('start'),
               child: Text("Start Background"),
@@ -89,7 +93,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 startServiceInPlatform();
               },
             ),
-          ),
+          ),*/
+          Monitor(),
           Center(
             child: SingleChildScrollView(
               child: Container(
