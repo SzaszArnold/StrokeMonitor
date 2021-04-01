@@ -1,4 +1,6 @@
 //import 'package:audioplayers/audioplayers.dart';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -6,6 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'dart:async';
+import 'dart:convert' as convert;
+import 'package:http/http.dart' as http;
+import 'package:sms/sms.dart';
 
 class ContactPerson extends StatefulWidget {
   @override
@@ -28,6 +33,41 @@ class _ContactPersonState extends State<ContactPerson> {
       },
     );
   }
+
+  void test() async {
+    var url =
+        Uri.https('www.googleapis.com', '/books/v1/volumes', {'q': '{http}'});
+
+    // Await the http get response, then decode the json-formatted response.
+    // var response = await http.get(url);
+    final response = await http.get(
+      'https://api.fitbit.com/1/user/-/activities/heart/date/today/1d/1sec/time/00:00/00:01.json',
+      headers: {
+        HttpHeaders.authorizationHeader:
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMkM2NVoiLCJzdWIiOiI4WFRRVzkiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyc29jIHJzZXQgcmFjdCBybG9jIHJ3ZWkgcmhyIHJudXQgcnBybyByc2xlIiwiZXhwIjoxNjE3NjIxNTg4LCJpYXQiOjE2MTcwMjE2NDh9.d5spA4ia9y4NES_f2G0y8THN16BkJMAdeMlFhanQqw4"
+      },
+    );
+    if (response.statusCode == 200) {
+      var jsonResponse = convert.jsonDecode(response.body);
+      print('$jsonResponse');
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+    }
+  }
+
+  void _incrementCounter(String address) {
+    SmsSender sender = SmsSender();
+    SmsMessage message = SmsMessage(address, 'I am in danger, help me!');
+    message.onStateChanged.listen((state) {
+      if (state == SmsMessageState.Sent) {
+        print("SMS is sent!");
+      } else if (state == SmsMessageState.Delivered) {
+        print("SMS is delivered!");
+      }
+    });
+    sender.sendSms(message);
+  }
+
 /*
   AudioPlayer audioPlayer = AudioPlayer();
   play() async {
@@ -68,6 +108,7 @@ class _ContactPersonState extends State<ContactPerson> {
 
   @override
   Widget build(BuildContext context) {
+    test();
     return Center(
       child: Card(
         margin: EdgeInsets.all(20),
@@ -79,7 +120,7 @@ class _ContactPersonState extends State<ContactPerson> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  FutureBuilder<String>(
+                  /*  FutureBuilder<String>(
                     future: _future,
                     builder: (context, snapshot) {
                       databaseReference.child('arnoldszasz06data').once().then(
@@ -99,7 +140,7 @@ class _ContactPersonState extends State<ContactPerson> {
                         child: Text('${value}'),
                       );
                     },
-                  ),
+                  ),*/
                   StreamBuilder(
                       stream: FirebaseFirestore.instance
                           .collection('usersContact')
@@ -119,11 +160,13 @@ class _ContactPersonState extends State<ContactPerson> {
                             children: [
                               Center(
                                 child: FlatButton(
-                                    child: Text('Phone Call'),
-                                    onPressed: () {
-                                      FlutterPhoneDirectCaller.callNumber(
-                                          '${documents['phone']}');
-                                    }),
+                                  child: Text('Phone Call'), // 0741903889
+                                  onPressed: () {
+                                    _incrementCounter(documents['phone']);
+                                    /*    FlutterPhoneDirectCaller.callNumber(
+                                        '${documents['phone']}');*/
+                                  },
+                                ),
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -211,7 +254,7 @@ class _ContactPersonState extends State<ContactPerson> {
                   ),
                   IconButton(
                     key: ValueKey('saveContact'),
-                    icon: Icon(Icons.save),
+                    icon: Icon(Icons.battery_std_sharp),
                     onPressed: () {
                       setState(() {
                         _trySave();

@@ -1,0 +1,31 @@
+{
+  "devDependencies": {
+    "@fitbit/sdk": "~4.2.0"
+  },
+  "fitbit": {
+    "appUUID": "109aaf9e-7d6e-402c-972d-d487a91f0c72",
+    "appType": "clockface",
+    "appDisplayName": "StrokeMonitor",
+    "iconFile": "resources/icon.png",
+    "wipeColor": "#f44336",
+    "requestedPermissions": [
+      "access_heart_rate",
+      "access_internet",
+      "access_user_profile",
+      "run_background",
+      "access_activity"
+    ],
+    "buildTargets": [
+      "gemini"
+    ],
+    "i18n": {
+      "en-US": {
+        "name": "StrokeMonitor"
+      },
+      "ro-RO": {
+        "name": "StrokeMonitor"
+      }
+    },
+    "defaultLanguage": "en-US"
+  }
+}

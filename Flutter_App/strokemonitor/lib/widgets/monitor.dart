@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'dart:async';
+import 'package:sms/sms.dart';
 
 class Monitor extends StatefulWidget {
   @override
@@ -24,6 +25,19 @@ class _MonitorState extends State<Monitor> {
     if (timerFlag) {
       setUpTimedFetch();
     }
+  }
+
+  void _sendSMS(String address) {
+    SmsSender sender = SmsSender();
+    SmsMessage message = SmsMessage(address, 'Hello flutter!');
+    message.onStateChanged.listen((state) {
+      if (state == SmsMessageState.Sent) {
+        print("SMS is sent!");
+      } else if (state == SmsMessageState.Delivered) {
+        print("SMS is delivered!");
+      }
+    });
+    sender.sendSms(message);
   }
 
   setUpTimedFetch() {
@@ -71,9 +85,10 @@ class _MonitorState extends State<Monitor> {
                   );
                 },
               );
-              if (int.parse(value) >= 160) {
+              if (int.parse(value) >= 80) {
                 print(currentPhone);
                 timerFlag = false;
+                //_sendSMS(currentPhone);
                 // FlutterPhoneDirectCaller.callNumber('$currentPhone');
                 return Center(
                   child: Column(

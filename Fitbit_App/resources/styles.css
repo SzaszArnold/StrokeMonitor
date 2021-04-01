@@ -1,0 +1,59 @@
+.background {
+  viewport-fill: black;
+}
+
+#timeLabel {
+  font-size: 90;
+  font-family: System-Bold;
+  text-length: 32;
+  text-anchor: middle;
+  x: 50%;
+  y: 30%+60;
+  fill: white;
+  
+}
+
+#heartRateLabel {
+  font-size: 28;
+  font-family: System-Regular;
+  text-length: 50;
+  text-anchor: middle;
+  x: 15%;
+  y: 10%;
+  fill: white;
+}
+
+#accuLabel {
+  font-size: 28;
+  font-family: System-Regular;
+  text-length: 50;
+  text-anchor: middle;
+  x: 80%;
+  y: 10%;
+  fill: white;
+}
+
+#stepsLabel
+{
+  font-size: 28;
+  font-family: System-Regular;
+  text-length: 50;
+  text-anchor: middle;
+  x: 30%;
+  y: 80%;
+  fill: white;
+}
+#dateLabel {
+  font-size: 28;
+  font-family: System-Regular;
+  text-length: 50;
+  text-anchor: middle;
+  x: 70%;
+  y: 95%;
+  fill: white;  
+}
+#stroke{
+  opacity: 0.6;
+}
+
+
