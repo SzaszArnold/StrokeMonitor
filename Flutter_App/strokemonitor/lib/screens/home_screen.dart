@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:strokemonitor/widgets/monitor.dart';
+import 'package:flutter_web_auth/flutter_web_auth.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -13,6 +14,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String value = "no";
+  String _status = '';
   final databaseReference = FirebaseDatabase.instance.reference();
   void startServiceInPlatform() async {
     if (Platform.isAndroid) {
@@ -77,6 +79,24 @@ class _HomeScreenState extends State<HomeScreen> {
         "•\tUse quit-smoking aids, such as nicotine pills or patches, counseling, or medicine.\n" +
         "•\tDon't give up. Most smokers need several tries to quit. See each attempt as bringing you one step closer to successfully beating the habit.\n"
   ];
+  void authenticate() async {
+    final url =
+        'https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=22C65Z&redirect_uri=https%3A%2F%2Fredirecthoststrokemonitor.web.app%2F&scope=activity%20heartrate%20location%20nutrition%20profile%20settings%20sleep%20social%20weight&expires_in=604800';
+    final callbackUrlScheme = 'foobar';
+
+    try {
+      final result = await FlutterWebAuth.authenticate(
+          url: url, callbackUrlScheme: callbackUrlScheme);
+      setState(() {
+        _status = 'Got result: $result';
+      });
+    } on PlatformException catch (e) {
+      setState(() {
+        _status = 'Got error: $e';
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     startServiceInPlatform();
@@ -95,6 +115,14 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),*/
           Monitor(),
+          Text('Status: $_status\n'),
+          const SizedBox(height: 80),
+          RaisedButton(
+            child: Text('Authenticate'),
+            onPressed: () {
+              this.authenticate();
+            },
+          ),
           Center(
             child: SingleChildScrollView(
               child: Container(
