@@ -74,13 +74,13 @@ class _MonitorState extends State<Monitor> {
         FutureBuilder<String>(
             future: _future,
             builder: (context, snapshot) {
-              databaseReference.child('arnoldszasz06data').once().then(
+              databaseReference.child('"38"').once().then(
                 (DataSnapshot snapshot) {
-                  String currentValue = snapshot.value['arni'];
+                  String currentValue = snapshot.value['data'];
                   print(currentValue);
                   setState(
                     () {
-                      value = '${snapshot.value['arni']}';
+                      value = '${snapshot.value['data']}';
                     },
                   );
                 },

@@ -149,7 +149,8 @@ class _ContactPersonState extends State<ContactPerson> {
                           .snapshots(),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
+                                ConnectionState.waiting &&
+                            !snapshot.hasData) {
                           return Center(
                             child: CircularProgressIndicator(),
                           );

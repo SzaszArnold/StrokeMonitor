@@ -49,6 +49,22 @@ class _AuthScreenState extends State<AuthScreen> {
         'height': height,
         'weight': weight,
       });
+      FirebaseFirestore.instance
+          .collection('risk')
+          .doc(_auth.currentUser.email
+              .substring(0, _auth.currentUser.email.lastIndexOf('@')))
+          .set({
+        'percentage': "",
+        'score': 0,
+      });
+      FirebaseFirestore.instance
+          .collection('usersContact')
+          .doc(_auth.currentUser.email
+              .substring(0, _auth.currentUser.email.lastIndexOf('@')))
+          .set({
+        'name': "Ambulance",
+        'phone': 112,
+      });
     } on PlatformException catch (err) {
       var message = 'An error occured, please check your credentials!';
       if (err.message != null) {

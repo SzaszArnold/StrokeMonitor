@@ -33,7 +33,6 @@ class _AuthFormState extends State<AuthForm> {
   void _trySubmit() {
     final isValid = _formKey.currentState.validate();
     FocusScope.of(context).unfocus();
-
     if (isValid) {
       _formKey.currentState.save();
       widget.submitFunction(
@@ -227,6 +226,7 @@ class _AuthFormState extends State<AuthForm> {
                       onPressed: _trySubmit,
                     ),
                   if (!widget.isLoading)
+                    // ignore: deprecated_member_use
                     FlatButton(
                       textColor: Theme.of(context).primaryColor,
                       child: Text(_isLogin

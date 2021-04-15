@@ -2,6 +2,12 @@ import 'package:bezier_chart/bezier_chart.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:strokemonitor/models/sample_data.dart';
+import 'package:flutter_web_auth/flutter_web_auth.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert' as convert;
+import 'dart:io';
+import 'package:flutter/services.dart';
 
 final _databaseReference = FirebaseDatabase.instance.reference();
 List<SampleData> list = [];
@@ -13,6 +19,96 @@ class ChartsScreen extends StatefulWidget {
 }
 
 class _ChartsScreenState extends State<ChartsScreen> {
+  String _status = '';
+  String _token = '';
+  Future authenticate() async {
+    await _loadToken();
+    if (_token == '') {
+      final url =
+          'https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=22C65Z&redirect_uri=https%3A%2F%2Fredirecthoststrokemonitor.web.app%2F&scope=activity%20heartrate%20location%20nutrition%20profile%20settings%20sleep%20social%20weight&expires_in=604800000000';
+      final callbackUrlScheme = 'foobar';
+
+      try {
+        final result = await FlutterWebAuth.authenticate(
+            url: url, callbackUrlScheme: callbackUrlScheme);
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('token',
+            "Bearer ${result.substring(result.indexOf('=') + 1, result.indexOf('&'))}");
+        setState(() {
+          _status =
+              result.substring(result.indexOf('=') + 1, result.indexOf('&'));
+        });
+      } on PlatformException catch (e) {
+        setState(() {
+          _status = 'Got error: $e';
+        });
+      }
+    }
+  }
+
+  Future _loadToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _token = (prefs.getString('token') ?? "");
+    });
+  }
+
+  void _nullToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.setString('token', "");
+  }
+
+  void _getFitbitToday() async {
+    final response = await http.get(
+      'https://api.fitbit.com/1/user/-/activities/heart/date/today/1d.json',
+      headers: {HttpHeaders.authorizationHeader: _token},
+    );
+    if (response.statusCode == 200) {
+      Map<dynamic, dynamic> jsonResponse = convert.jsonDecode(response.body);
+      print('Data, ${jsonResponse['activities-heart']}!');
+    } else {
+      if (response.statusCode == 401) {
+        _nullToken();
+      }
+      print('Request failed with status: ${response.statusCode}.');
+    }
+  }
+
+  void _getFitbitLastHour() async {
+    int stop = DateTime.now().hour;
+    int start = stop - 1;
+    final response = await http.get(
+      'https://api.fitbit.com/1/user/-/activities/heart/date/today/today/5min/time/$start:00/$stop:00.json',
+      headers: {HttpHeaders.authorizationHeader: _token},
+    );
+    if (response.statusCode == 200) {
+      var jsonResponse = convert.jsonDecode(response.body);
+      print('$jsonResponse');
+    } else {
+      if (response.statusCode == 401) {
+        _nullToken();
+      }
+      print('Request failed with status: ${response.statusCode}.');
+    }
+  }
+
+  void _getFitbitLastSevenDay() async {
+    final response = await http.get(
+      'https://api.fitbit.com/1/user/-/activities/heart/date/today/7d.json',
+      headers: {HttpHeaders.authorizationHeader: _token},
+    );
+    if (response.statusCode == 200) {
+      var jsonResponse = convert.jsonDecode(response.body);
+      print('$jsonResponse');
+    } else {
+      if (response.statusCode == 401) {
+        _nullToken();
+      }
+      print('Request failed with status: ${response.statusCode}.');
+    }
+  }
+
   void readData() {
     _databaseReference
         .child('arnoldszasz06data')
@@ -39,6 +135,7 @@ class _ChartsScreenState extends State<ChartsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    authenticate();
     String dropdownValue = 'Hour';
     return Scaffold(
       body: SingleChildScrollView(
@@ -47,6 +144,24 @@ class _ChartsScreenState extends State<ChartsScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
           children: [
+            RaisedButton(
+              child: Text('hour'),
+              onPressed: () {
+                this._getFitbitLastHour();
+              },
+            ),
+            RaisedButton(
+              child: Text('day'),
+              onPressed: () {
+                this._getFitbitToday();
+              },
+            ),
+            RaisedButton(
+              child: Text('7day'),
+              onPressed: () {
+                this._getFitbitLastSevenDay();
+              },
+            ),
             Container(
               alignment: Alignment.center,
               child: Row(
