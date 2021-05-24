@@ -1,108 +1,290 @@
-/*import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:bezier_chart/bezier_chart.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:strokemonitor/models/fitbit_day_model.dart';
+import 'package:strokemonitor/models/sample_data.dart';
 import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert' as convert;
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/services.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
-class MyChart extends StatefulWidget {
+final _databaseReference = FirebaseDatabase.instance.reference();
+List<SampleData> list = [];
+const List<DataPoint<dynamic>> data = [];
+
+class Chart extends StatefulWidget {
   @override
-  _MyChartState createState() => _MyChartState();
+  _ChartState createState() => _ChartState();
 }
 
-class _MyChartState extends State<MyChart> {
-  final fromDate = DateTime(2012, 11, 22);
+class _ChartState extends State<Chart> {
+  String _status = '';
+  String _token = '';
+  Future authenticate() async {
+    await _loadToken();
+    if (_token == '') {
+      final url =
+          'https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=22C65Z&redirect_uri=https%3A%2F%2Fredirecthoststrokemonitor.web.app%2F&scope=activity%20heartrate%20location%20nutrition%20profile%20settings%20sleep%20social%20weight&expires_in=604800000000';
+      final callbackUrlScheme = 'foobar';
 
-  final toDate = DateTime.now();
+      try {
+        final result = await FlutterWebAuth.authenticate(
+            url: url, callbackUrlScheme: callbackUrlScheme);
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('token',
+            "Bearer ${result.substring(result.indexOf('=') + 1, result.indexOf('&'))}");
+        setState(() {
+          _status =
+              result.substring(result.indexOf('=') + 1, result.indexOf('&'));
+        });
+      } on PlatformException catch (e) {
+        setState(() {
+          _status = 'Got error: $e';
+        });
+      }
+    }
+  }
 
-  final date1 = DateTime.now().subtract(Duration(days: 2));
+  Future _loadToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _token = (prefs.getString('token') ?? "");
+    });
+  }
 
-  final date2 = DateTime.now().subtract(Duration(days: 3));
+  void _nullToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  final date3 = DateTime.now().subtract(Duration(days: 300));
+    prefs.setString('token', "");
+  }
 
-  final date4 = DateTime.now().subtract(Duration(days: 320));
+  Future _getFitbitToday() async {
+    final response = await http.get(
+      'https://api.fitbit.com/1/user/-/activities/heart/date/today/1d.json',
+      headers: {HttpHeaders.authorizationHeader: _token},
+    );
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
+      jsonResponse.forEach((key, value) {
+        fitbitData = [];
+        fitbitData.add(FitbitData(DateTime.parse("${value[0]['dateTime']}"),
+            value[0]['value']['restingHeartRate']));
+        fitbitData.add(FitbitData(DateTime.parse("${value[0]['dateTime']}"),
+            value[0]['value']['restingHeartRate']));
+      });
 
-  final date5 = DateTime.now().subtract(Duration(days: 650));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Succes!')));
+    } else {
+      if (response.statusCode == 401) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Authorization required!')));
+        _nullToken();
+      }
+      print('Request failed with status: ${response.statusCode}.');
+    }
+  }
 
-  final date6 = DateTime.now().subtract(Duration(days: 652));
+  Future _getFitbitLastHour() async {
+    int stop = DateTime.now().hour;
+    int start = stop - 1;
+    final response = await http.get(
+      'https://api.fitbit.com/1/user/-/activities/heart/date/today/today/5min/time/$start:00/$stop:00.json',
+      headers: {HttpHeaders.authorizationHeader: _token},
+    );
+    if (response.statusCode == 200) {
+      var jsonResponse = jsonDecode(response.body);
+      print('$jsonResponse');
+    } else {
+      if (response.statusCode == 401) {
+        _nullToken();
+      }
+      print('Request failed with status: ${response.statusCode}.');
+    }
+  }
+
+  List<FitbitData> fitbitData = [];
+  Future _getFitbitLastSevenDay() async {
+    final response = await http.get(
+      'https://api.fitbit.com/1/user/-/activities/heart/date/today/7d.json',
+      headers: {HttpHeaders.authorizationHeader: _token},
+    );
+    if (response.statusCode == 200) {
+      fitbitData = [];
+      var jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
+      jsonResponse.forEach((key, value) {
+        fitbitData.add(FitbitData(DateTime.parse("${value[0]['dateTime']}"),
+            value[0]['value']['restingHeartRate']));
+        fitbitData.add(FitbitData(DateTime.parse("${value[0]['dateTime']}"),
+            value[1]['value']['restingHeartRate']));
+        fitbitData.add(FitbitData(DateTime.parse("${value[2]['dateTime']}"),
+            value[2]['value']['restingHeartRate']));
+        fitbitData.add(FitbitData(DateTime.parse("${value[3]['dateTime']}"),
+            value[3]['value']['restingHeartRate']));
+        fitbitData.add(FitbitData(DateTime.parse("${value[4]['dateTime']}"),
+            value[4]['value']['restingHeartRate']));
+        fitbitData.add(FitbitData(DateTime.parse("${value[5]['dateTime']}"),
+            value[5]['value']['restingHeartRate']));
+        fitbitData.add(FitbitData(DateTime.parse("${value[6]['dateTime']}"),
+            value[6]['value']['restingHeartRate']));
+      });
+      for (var e in fitbitData) {
+        print(e.date);
+      }
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Succes!')));
+    } else {
+      if (response.statusCode == 401) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Authorization required!')));
+        _nullToken();
+      }
+      print('Request failed with status: ${response.statusCode}.');
+    }
+  }
+
+  void readData() {
+    _databaseReference
+        .child('arnoldszasz06data')
+        .once()
+        .then((DataSnapshot snapshot) {
+      for (var value in snapshot.value.values) {
+        if (value['value'] != null) {
+          list.add(SampleData(value: double.tryParse(value['value'])));
+        }
+      }
+    });
+  }
+
+  _onTap(BuildContext context, Widget widget) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => Scaffold(
+          appBar: AppBar(),
+          body: widget,
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        color: Colors.red,
-        height: MediaQuery.of(context).size.height / 2,
-        width: MediaQuery.of(context).size.width,
+    authenticate();
+    return Scaffold(
+      body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
           children: [
-            /* BezierChart(
-              bezierChartScale: BezierChartScale.YEARLY,
-              fromDate: fromDate,
-              toDate: toDate,
-              selectedDate: toDate,
-              series: [
-                BezierLine(
-                  label: "Duty",
-                  onMissingValue: (dateTime) {
-                    if (dateTime.year.isEven) {
-                      return 20.0;
-                    }
-                    return 5.0;
-                  },
-                  data: [
-                    DataPoint<DateTime>(value: 10, xAxis: date1),
-                    DataPoint<DateTime>(value: 50, xAxis: date2),
-                    DataPoint<DateTime>(value: 100, xAxis: date3),
-                    DataPoint<DateTime>(value: 100, xAxis: date4),
-                    DataPoint<DateTime>(value: 40, xAxis: date5),
-                    DataPoint<DateTime>(value: 47, xAxis: date6),
-                  ],
-                ),
-                BezierLine(
-                  label: "Flight",
-                  lineColor: Colors.black26,
-                  onMissingValue: (dateTime) {
-                    if (dateTime.month.isEven) {
-                      return 10.0;
-                    }
-                    return 3.0;
-                  },
-                  data: [
-                    DataPoint<DateTime>(value: 20, xAxis: date1),
-                    DataPoint<DateTime>(value: 30, xAxis: date2),
-                    DataPoint<DateTime>(value: 150, xAxis: date3),
-                    DataPoint<DateTime>(value: 80, xAxis: date4),
-                    DataPoint<DateTime>(value: 45, xAxis: date5),
-                    DataPoint<DateTime>(value: 45, xAxis: date6),
-                  ],
-                ),
-              ],
-              config: BezierChartConfig(
-                verticalIndicatorStrokeWidth: 3.0,
-                verticalIndicatorColor: Colors.black26,
-                showVerticalIndicator: true,
-                verticalIndicatorFixedPosition: false,
-                backgroundGradient: LinearGradient(
-                  colors: [
-                    Colors.red[300],
-                    Colors.red[400],
-                    Colors.red[400],
-                    Colors.red[500],
-                    Colors.red,
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                ),
-                footerHeight: 30.0,
+            Container(
+              alignment: Alignment.center,
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 15,
+                  ),
+                  Text(
+                    'Select filter: ',
+                    style: TextStyle(
+                      fontSize: 28,
+                      color: Theme.of(context).primaryColor,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  /* DropdownButton<String>(
+                    value: dropdownValue,
+                    icon: Icon(Icons.arrow_downward),
+                    iconSize: 24,
+                    elevation: 16,
+                    style: TextStyle(color: Colors.deepPurple),
+                    underline: Container(
+                      height: 2,
+                      color: Colors.deepPurpleAccent,
+                    ),
+                    onChanged: (String newValue) {
+                      setState(() {
+                        dropdownValue = newValue;
+                        //for (var value in list) print('${value.value}');
+                      });
+                    },
+                    items: <String>['Day', 'Week']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: TextStyle(
+                            fontSize: 28,
+                            color: Theme.of(context).primaryColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),*/
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).primaryColor,
+                      onPrimary: Colors.white,
+                    ),
+                    child: Text('Day'),
+                    onPressed: () {
+                      _getFitbitToday();
+                    },
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).primaryColor,
+                      onPrimary: Colors.white,
+                    ),
+                    child: Text('Week'),
+                    onPressed: () {
+                      _getFitbitLastSevenDay();
+                    },
+                  ),
+                ],
               ),
-            ),*/
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height / 1.5,
+              child: SfCartesianChart(
+                title: ChartTitle(text: 'Resting heart rate'),
+                enableAxisAnimation: true,
+                primaryXAxis: CategoryAxis(),
+                tooltipBehavior: TooltipBehavior(enable: true),
+                enableSideBySideSeriesPlacement: true,
+                series: <LineSeries<FitbitData, String>>[
+                  LineSeries<FitbitData, String>(
+                      markerSettings: MarkerSettings(
+                          isVisible: true,
+                          height: 5,
+                          width: 5,
+                          shape: DataMarkerType.circle,
+                          borderWidth: 3,
+                          borderColor: Theme.of(context).primaryColor),
+                      dataSource: fitbitData,
+                      color: Theme.of(context).primaryColor,
+                      xAxisName: "Date",
+                      yAxisName: 'BPM',
+                      xValueMapper: (FitbitData data, _) =>
+                          data.date.day.toString(),
+                      yValueMapper: (FitbitData data, _) => data.value)
+                ],
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 }
-*/

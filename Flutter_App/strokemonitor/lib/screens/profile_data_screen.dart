@@ -13,6 +13,15 @@ class _ProfileDataScreenState extends State<ProfileDataScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile data'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.update),
+            tooltip: 'Update',
+            onPressed: () {
+              Navigator.of(context).pushNamed('/profile-data-update');
+            },
+          ),
+        ],
       ),
       backgroundColor: Color.fromRGBO(250, 232, 230, 1.0),
       body: ProfileData(),

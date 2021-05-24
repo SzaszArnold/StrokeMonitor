@@ -38,36 +38,75 @@ class _ProfileDataState extends State<ProfileData> {
                       return Column(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          Text(
-                            'Name: ${_auth.currentUser.email.substring(0, _auth.currentUser.email.lastIndexOf('@'))}',
-                            style: TextStyle(
-                              fontSize: 28,
-                              color: Theme.of(context).primaryColor,
-                              fontWeight: FontWeight.bold,
+                          Container(
+                            width: 200,
+                            height: 200,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  image: NetworkImage(
+                                      'https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png'),
+                                  fit: BoxFit.fill),
                             ),
                           ),
-                          Text(
-                            'BD: ${documents['birthday']}',
-                            style: TextStyle(
-                              fontSize: 28,
-                              color: Theme.of(context).primaryColor,
-                              fontWeight: FontWeight.bold,
+                          ListTile(
+                            leading: Icon(
+                              Icons.person,
+                              size: 26,
+                              color: Color.fromRGBO(153, 42, 35, 1.0),
+                            ),
+                            title: Text(
+                              '${_auth.currentUser.email.substring(0, _auth.currentUser.email.lastIndexOf('@'))}',
+                              style: TextStyle(
+                                fontSize: 28,
+                                color: Theme.of(context).primaryColor,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                          Text(
-                            'Height: ${documents['height']}',
-                            style: TextStyle(
-                              fontSize: 28,
-                              color: Theme.of(context).primaryColor,
-                              fontWeight: FontWeight.bold,
+                          ListTile(
+                            leading: Icon(
+                              Icons.cake_outlined,
+                              size: 26,
+                              color: Color.fromRGBO(153, 42, 35, 1.0),
+                            ),
+                            title: Text(
+                              '${documents['birthday']}',
+                              style: TextStyle(
+                                fontSize: 28,
+                                color: Theme.of(context).primaryColor,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                          Text(
-                            'Weight: ${documents['weight']}',
-                            style: TextStyle(
-                              fontSize: 28,
-                              color: Theme.of(context).primaryColor,
-                              fontWeight: FontWeight.bold,
+                          ListTile(
+                            leading: Icon(
+                              Icons.height,
+                              size: 26,
+                              color: Color.fromRGBO(153, 42, 35, 1.0),
+                            ),
+                            title: Text(
+                              'Height: ${documents['height']}',
+                              style: TextStyle(
+                                fontSize: 28,
+                                color: Theme.of(context).primaryColor,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          ListTile(
+                            leading: Icon(
+                              Icons.line_weight,
+                              size: 26,
+                              color: Color.fromRGBO(153, 42, 35, 1.0),
+                            ),
+                            title: Text(
+                              'Weight: ${documents['weight']}',
+                              style: TextStyle(
+                                fontSize: 28,
+                                color: Theme.of(context).primaryColor,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
@@ -92,12 +131,19 @@ class _ProfileDataState extends State<ProfileData> {
                       return Column(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          Text(
-                            'Risk: ${documents['percentage']}',
-                            style: TextStyle(
-                              fontSize: 28,
-                              color: Theme.of(context).primaryColor,
-                              fontWeight: FontWeight.bold,
+                          ListTile(
+                            leading: Icon(
+                              Icons.warning_amber_outlined,
+                              size: 26,
+                              color: Color.fromRGBO(153, 42, 35, 1.0),
+                            ),
+                            title: Text(
+                              '${documents['percentage']}',
+                              style: TextStyle(
+                                fontSize: 28,
+                                color: Theme.of(context).primaryColor,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],

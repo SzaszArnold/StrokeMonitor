@@ -45,7 +45,9 @@ dependencies:
   flutter_web_auth: ^0.3.0
   shared_preferences: ^0.5.12+4
 #  audioplayers: ^0.17.4
- 
+  image_picker: ^0.6.7+6
+  firebase_storage: ^7.0.0
+  syncfusion_flutter_charts: ^18.4.49
 
 
 

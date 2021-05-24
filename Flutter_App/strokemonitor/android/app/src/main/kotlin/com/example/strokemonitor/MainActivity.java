@@ -9,65 +9,35 @@ import androidx.annotation.Nullable;
 
 import io.flutter.embedding.android.FlutterActivity;
 import io.flutter.embedding.engine.FlutterEngine;
-import io.flutter.embedding.engine.plugins.util.GeneratedPluginRegister;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
-import io.flutter.plugins.GeneratedPluginRegistrant;
-import io.flutter.view.FlutterMain;
 
 
 public class MainActivity extends FlutterActivity {
-
     private Intent forService;
 
-  @Override
-  protected void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    forService = new Intent(MainActivity.this, MyService.class);
-  }
-
-  @Override
-  public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
-    super.configureFlutterEngine(flutterEngine);
-   // GeneratedPluginRegistrant.registerWith(new FlutterEngine(this));
-
-
-
-    new MethodChannel(flutterEngine.getDartExecutor(), "com.example.strokemonitor")
-            .setMethodCallHandler(new MethodChannel.MethodCallHandler() {
-              @Override
-              public void onMethodCall(MethodCall methodCall, MethodChannel.Result result) {
-                if (methodCall.method.equals("startService")) {
-                  startService();
-                  result.success("Service Started");
-                }
-              }
-            });
-
-
-  }
-/*
-  @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        //FlutterMain.startInitialization(this);
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        GeneratedPluginRegistrant.registerWith(new FlutterEngine(this));
-
         forService = new Intent(MainActivity.this, MyService.class);
+    }
 
-        new MethodChannel(getFlutterView(), "com.example.strokemonitor")
+    @Override
+    public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
+        super.configureFlutterEngine(flutterEngine);
+        // GeneratedPluginRegistrant.registerWith(new FlutterEngine(this));
+
+        new MethodChannel(flutterEngine.getDartExecutor(), "com.example.strokemonitor")
                 .setMethodCallHandler(new MethodChannel.MethodCallHandler() {
                     @Override
                     public void onMethodCall(MethodCall methodCall, MethodChannel.Result result) {
                         if (methodCall.method.equals("startService")) {
                             startService();
-                            result.success("Service Started");
-                        }
+                            result.success("Service Started");}
                     }
                 });
 
-
-    }*/
+    }
 
     @Override
     protected void onDestroy() {
@@ -82,6 +52,4 @@ public class MainActivity extends FlutterActivity {
             startService(forService);
         }
     }
-
-
 }

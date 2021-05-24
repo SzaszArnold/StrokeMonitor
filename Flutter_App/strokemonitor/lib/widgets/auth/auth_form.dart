@@ -204,7 +204,7 @@ class _AuthFormState extends State<AuthForm> {
                                     : 'Birthdate: ' +
                                         DateFormat.yMd().format(_userBirthDay),
                               ),
-                              FlatButton(
+                              TextButton(
                                   onPressed: () {
                                     _pressentDataPicker();
                                   },
@@ -220,15 +220,22 @@ class _AuthFormState extends State<AuthForm> {
                   SizedBox(height: 12),
                   if (widget.isLoading) CircularProgressIndicator(),
                   if (!widget.isLoading)
-                    RaisedButton(
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Theme.of(context).primaryColor,
+                        onPrimary: Colors.white,
+                      ),
                       key: Key('button'),
                       child: Text(_isLogin ? 'Login' : 'Signup'),
                       onPressed: _trySubmit,
                     ),
                   if (!widget.isLoading)
                     // ignore: deprecated_member_use
-                    FlatButton(
-                      textColor: Theme.of(context).primaryColor,
+                    TextButton(
+                      style: ButtonStyle(
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                            Theme.of(context).primaryColor),
+                      ),
                       child: Text(_isLogin
                           ? 'Create new account'
                           : 'I already have an account'),

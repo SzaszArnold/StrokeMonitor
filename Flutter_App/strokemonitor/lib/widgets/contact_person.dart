@@ -255,7 +255,7 @@ class _ContactPersonState extends State<ContactPerson> {
                   ),
                   IconButton(
                     key: ValueKey('saveContact'),
-                    icon: Icon(Icons.battery_std_sharp),
+                    icon: Icon(Icons.save),
                     onPressed: () {
                       setState(() {
                         _trySave();

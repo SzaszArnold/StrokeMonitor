@@ -68,8 +68,6 @@ class _StrokeRiskState extends State<StrokeRisk> {
                         print(value);
                         if (value == true) {
                           riskScore += 1;
-                        } else if (riskScore != 0) {
-                          riskScore -= 1;
                         }
                       });
                     },
@@ -85,8 +83,6 @@ class _StrokeRiskState extends State<StrokeRisk> {
                         print(value);
                         if (value == true) {
                           riskScore += 2;
-                        } else if (riskScore != 0) {
-                          riskScore -= 2;
                         }
                       });
                     },
@@ -102,8 +98,6 @@ class _StrokeRiskState extends State<StrokeRisk> {
                         print(value);
                         if (value == true) {
                           riskScore += 1;
-                        } else if (riskScore != 0) {
-                          riskScore -= 1;
                         }
                       });
                     },
@@ -119,8 +113,6 @@ class _StrokeRiskState extends State<StrokeRisk> {
                         print(value);
                         if (value == true) {
                           riskScore += 1;
-                        } else if (riskScore != 0) {
-                          riskScore -= 1;
                         }
                       });
                     },
@@ -136,8 +128,6 @@ class _StrokeRiskState extends State<StrokeRisk> {
                         print(value);
                         if (value == true) {
                           riskScore += 1;
-                        } else if (riskScore != 0) {
-                          riskScore -= 1;
                         }
                       });
                     },
@@ -211,7 +201,11 @@ class _StrokeRiskState extends State<StrokeRisk> {
                     ),
                   ),
                   SizedBox(height: 12),
-                  RaisedButton(
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).primaryColor,
+                      onPrimary: Colors.white,
+                    ),
                     child: Text('Submit'),
                     onPressed: () {
                       _trySubmit();
