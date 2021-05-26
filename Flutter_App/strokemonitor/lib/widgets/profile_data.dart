@@ -1,7 +1,8 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class ProfileData extends StatefulWidget {
   @override
@@ -24,7 +25,7 @@ class _ProfileDataState extends State<ProfileData> {
                 Form(
                   child: StreamBuilder(
                     stream: FirebaseFirestore.instance
-                        .collection('users')
+                        .collection('userImg')
                         .doc(_auth.currentUser.email.substring(
                             0, _auth.currentUser.email.lastIndexOf('@')))
                         .snapshots(),
@@ -39,16 +40,37 @@ class _ProfileDataState extends State<ProfileData> {
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           Container(
-                            width: 200,
-                            height: 200,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                  image: NetworkImage(
-                                      'https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png'),
-                                  fit: BoxFit.fill),
-                            ),
-                          ),
+                              width: 200,
+                              height: 250,
+                              child: Image.file(
+                                File('${documents['img']}'),
+                                fit: BoxFit.fill,
+                              ),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                              )),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+                Form(
+                  child: StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(_auth.currentUser.email.substring(
+                            0, _auth.currentUser.email.lastIndexOf('@')))
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      final documents = snapshot.data;
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
                           ListTile(
                             leading: Icon(
                               Icons.person,

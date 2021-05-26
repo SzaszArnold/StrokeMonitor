@@ -23,11 +23,12 @@ class Chart extends StatefulWidget {
 class _ChartState extends State<Chart> {
   String _status = '';
   String _token = '';
+  String type = 'day';
   Future authenticate() async {
     await _loadToken();
     if (_token == '') {
       final url =
-          'https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=22C65Z&redirect_uri=https%3A%2F%2Fredirecthoststrokemonitor.web.app%2F&scope=activity%20heartrate%20location%20nutrition%20profile%20settings%20sleep%20social%20weight&expires_in=604800000000';
+          'https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=22C65Z&redirect_uri=https%3A%2F%2Fredirecthoststrokemonitor.web.app%2F&scope=activity%20heartrate%20location%20nutrition%20profile%20settings%20sleep%20social%20weight&expires_in=604800';
       final callbackUrlScheme = 'foobar';
 
       try {
@@ -62,20 +63,22 @@ class _ChartState extends State<Chart> {
   }
 
   Future _getFitbitToday() async {
+    type = 'day';
     final response = await http.get(
-      'https://api.fitbit.com/1/user/-/activities/heart/date/today/1d.json',
-      headers: {HttpHeaders.authorizationHeader: _token},
+      'https://api.fitbit.com/1/user/-/activities/heart/date/today/today/5min.json',
+      headers: {
+        HttpHeaders.authorizationHeader:
+            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMjdHNUwiLCJzdWIiOiI4WFRRVzkiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd251dCB3cHJvIHdzbGUgd3dlaSB3c29jIHdhY3Qgd3NldCB3bG9jIiwiZXhwIjoxNjIyMTIxMDQ5LCJpYXQiOjE2MjIwMzQ2NDl9.6H-vedMfC-gzU8JYuTSkrvWLRFsdWCfSn0dIfc3a_CE"
+      },
     );
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
-      jsonResponse.forEach((key, value) {
-        fitbitData = [];
-        fitbitData.add(FitbitData(DateTime.parse("${value[0]['dateTime']}"),
-            value[0]['value']['restingHeartRate']));
-        fitbitData.add(FitbitData(DateTime.parse("${value[0]['dateTime']}"),
-            value[0]['value']['restingHeartRate']));
-      });
-
+      fitbitData = [];
+      for (var i in jsonResponse['activities-heart-intraday']['dataset']) {
+        if (DateTime.parse('1998-01-01 ' + "${i['time']}").minute == 0)
+          fitbitData.add(FitbitData(
+              DateTime.parse('1998-01-01 ' + "${i['time']}"), i['value']));
+      }
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Succes!')));
     } else {
@@ -108,6 +111,7 @@ class _ChartState extends State<Chart> {
 
   List<FitbitData> fitbitData = [];
   Future _getFitbitLastSevenDay() async {
+    type = 'week';
     final response = await http.get(
       'https://api.fitbit.com/1/user/-/activities/heart/date/today/7d.json',
       headers: {HttpHeaders.authorizationHeader: _token},
@@ -118,7 +122,7 @@ class _ChartState extends State<Chart> {
       jsonResponse.forEach((key, value) {
         fitbitData.add(FitbitData(DateTime.parse("${value[0]['dateTime']}"),
             value[0]['value']['restingHeartRate']));
-        fitbitData.add(FitbitData(DateTime.parse("${value[0]['dateTime']}"),
+        fitbitData.add(FitbitData(DateTime.parse("${value[1]['dateTime']}"),
             value[1]['value']['restingHeartRate']));
         fitbitData.add(FitbitData(DateTime.parse("${value[2]['dateTime']}"),
             value[2]['value']['restingHeartRate']));
@@ -131,9 +135,6 @@ class _ChartState extends State<Chart> {
         fitbitData.add(FitbitData(DateTime.parse("${value[6]['dateTime']}"),
             value[6]['value']['restingHeartRate']));
       });
-      for (var e in fitbitData) {
-        print(e.date);
-      }
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Succes!')));
     } else {
@@ -256,31 +257,71 @@ class _ChartState extends State<Chart> {
               ),
             ),
             Container(
-              height: MediaQuery.of(context).size.height / 1.5,
-              child: SfCartesianChart(
-                title: ChartTitle(text: 'Resting heart rate'),
-                enableAxisAnimation: true,
-                primaryXAxis: CategoryAxis(),
-                tooltipBehavior: TooltipBehavior(enable: true),
-                enableSideBySideSeriesPlacement: true,
-                series: <LineSeries<FitbitData, String>>[
-                  LineSeries<FitbitData, String>(
-                      markerSettings: MarkerSettings(
+              child: type == "day"
+                  ? Container(
+                      height: MediaQuery.of(context).size.height / 1.5,
+                      child: SfCartesianChart(
+                        title: ChartTitle(text: 'Resting heart rate'),
+                        enableAxisAnimation: true,
+                        primaryXAxis: CategoryAxis(),
+                        tooltipBehavior: TooltipBehavior(enable: true),
+                        enableSideBySideSeriesPlacement: true,
+                        legend: Legend(
                           isVisible: true,
-                          height: 5,
-                          width: 5,
-                          shape: DataMarkerType.circle,
-                          borderWidth: 3,
-                          borderColor: Theme.of(context).primaryColor),
-                      dataSource: fitbitData,
-                      color: Theme.of(context).primaryColor,
-                      xAxisName: "Date",
-                      yAxisName: 'BPM',
-                      xValueMapper: (FitbitData data, _) =>
-                          data.date.day.toString(),
-                      yValueMapper: (FitbitData data, _) => data.value)
-                ],
-              ),
+                        ),
+                        series: <LineSeries<FitbitData, String>>[
+                          LineSeries<FitbitData, String>(
+                              enableTooltip: true,
+                              markerSettings: MarkerSettings(
+                                  isVisible: true,
+                                  height: 5,
+                                  width: 5,
+                                  shape: DataMarkerType.circle,
+                                  borderWidth: 3,
+                                  borderColor: Theme.of(context).primaryColor),
+                              dataSource: fitbitData,
+                              color: Theme.of(context).primaryColor,
+                              xAxisName: "Date",
+                              name: 'BPM',
+                              yAxisName: 'BPM',
+                              xValueMapper: (FitbitData data, _) =>
+                                  data.date.hour.toString(),
+                              yValueMapper: (FitbitData data, _) => data.value)
+                        ],
+                      ),
+                    )
+                  : Container(
+                      height: MediaQuery.of(context).size.height / 1.5,
+                      child: SfCartesianChart(
+                        title: ChartTitle(text: 'Resting heart rate'),
+                        enableAxisAnimation: true,
+                        primaryXAxis: CategoryAxis(),
+                        tooltipBehavior: TooltipBehavior(enable: true),
+                        enableSideBySideSeriesPlacement: true,
+                        legend: Legend(
+                          isVisible: true,
+                        ),
+                        series: <LineSeries<FitbitData, String>>[
+                          LineSeries<FitbitData, String>(
+                              enableTooltip: true,
+                              markerSettings: MarkerSettings(
+                                  isVisible: true,
+                                  height: 5,
+                                  width: 5,
+                                  shape: DataMarkerType.circle,
+                                  borderWidth: 3,
+                                  borderColor: Theme.of(context).primaryColor),
+                              dataSource: fitbitData,
+                              color: Theme.of(context).primaryColor,
+                              xAxisName: "Date",
+                              name: 'BPM',
+                              yAxisName: 'BPM',
+                              xValueMapper: (FitbitData data, _) =>
+                                  data.date.day.toString(),
+                              yValueMapper: (FitbitData data, _) => data.value)
+                        ],
+                      ),
+                    ),
             ),
           ],
         ),

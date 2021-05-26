@@ -49,31 +49,6 @@ class _ProfileDataUpdateState extends State<ProfileDataUpdate> {
     });
   }
 
-  Future<firebase_storage.UploadTask> uploadFile(File file) async {
-    if (file == null) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('No file was selected'),
-      ));
-      return null;
-    }
-
-    firebase_storage.UploadTask uploadTask;
-
-    // Create a Reference to the file
-    firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
-        .ref()
-        .child('playground')
-        .child('/some-image.jpg');
-
-    final metadata = firebase_storage.SettableMetadata(
-        contentType: 'image/jpeg',
-        customMetadata: {'picked-file-path': imageFile.path});
-
-    uploadTask = ref.putFile(File(imageFile.path), metadata);
-
-    return Future.value(uploadTask);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Center(
