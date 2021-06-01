@@ -66,10 +66,7 @@ class _ChartState extends State<Chart> {
     type = 'day';
     final response = await http.get(
       'https://api.fitbit.com/1/user/-/activities/heart/date/today/today/5min.json',
-      headers: {
-        HttpHeaders.authorizationHeader:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMjdHNUwiLCJzdWIiOiI4WFRRVzkiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJ3aHIgd251dCB3cHJvIHdzbGUgd3dlaSB3c29jIHdhY3Qgd3NldCB3bG9jIiwiZXhwIjoxNjIyMTIxMDQ5LCJpYXQiOjE2MjIwMzQ2NDl9.6H-vedMfC-gzU8JYuTSkrvWLRFsdWCfSn0dIfc3a_CE"
-      },
+      headers: {HttpHeaders.authorizationHeader: _token},
     );
     if (response.statusCode == 200) {
       var jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;

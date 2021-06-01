@@ -85,7 +85,7 @@ class _MonitorState extends State<Monitor> {
                   );
                 },
               );
-              if (int.parse(value) >= 80) {
+              if (int.parse(value) >= 140) {
                 print(currentPhone);
                 timerFlag = false;
                 //_sendSMS(currentPhone);

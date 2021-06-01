@@ -95,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
           ),*/
-          // Monitor(),
+          Monitor(),
           Center(
             child: SingleChildScrollView(
               child: Container(
