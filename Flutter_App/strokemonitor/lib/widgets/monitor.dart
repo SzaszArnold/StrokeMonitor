@@ -16,6 +16,7 @@ class _MonitorState extends State<Monitor> {
   String currentPhone = "Not yet!";
   String value = "no";
   bool timerFlag = true;
+  bool sentSMS;
   final _auth = FirebaseAuth.instance;
   final databaseReference = FirebaseDatabase.instance.reference();
   Future<String> _future;
@@ -27,16 +28,22 @@ class _MonitorState extends State<Monitor> {
     }
   }
 
-  void _sendSMS(String address) {
+  Future _sendSMS(String address) async {
+    print('entered');
     SmsSender sender = SmsSender();
-    SmsMessage message = SmsMessage(address, 'Hello flutter!');
-    message.onStateChanged.listen((state) {
-      if (state == SmsMessageState.Sent) {
-        print("SMS is sent!");
-      } else if (state == SmsMessageState.Delivered) {
-        print("SMS is delivered!");
-      }
-    });
+    SmsMessage message = SmsMessage(
+        address,
+        'I am in danger, my current pulse is $value\n' +
+            'Please call the ambulance!');
+    message.onStateChanged.listen(
+      (state) {
+        if (state == SmsMessageState.Sent) {
+          print("SMS is sent!");
+        } else if (state == SmsMessageState.Delivered) {
+          print("SMS is delivered!");
+        }
+      },
+    );
     sender.sendSms(message);
   }
 
@@ -65,16 +72,14 @@ class _MonitorState extends State<Monitor> {
               );
             }
             final documents = snapshot.data;
-
             currentPhone = documents['phone'];
-
             return Text('');
           },
         ),
         FutureBuilder<String>(
             future: _future,
             builder: (context, snapshot) {
-              databaseReference.child('"38"').once().then(
+              databaseReference.child('arnoldszasz06').once().then(
                 (DataSnapshot snapshot) {
                   String currentValue = snapshot.value['data'];
                   print(currentValue);
@@ -88,7 +93,7 @@ class _MonitorState extends State<Monitor> {
               if (int.parse(value) >= 140) {
                 print(currentPhone);
                 timerFlag = false;
-                //_sendSMS(currentPhone);
+                // _sendSMS(currentPhone);
                 // FlutterPhoneDirectCaller.callNumber('$currentPhone');
                 return Center(
                   child: Column(

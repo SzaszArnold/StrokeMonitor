@@ -37,6 +37,24 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(_pages[_selectedPageIndex]['title']),
+        actions: [
+          if (_pages[_selectedPageIndex]['title'] == 'Charts')
+            IconButton(
+              icon: const Icon(Icons.help),
+              tooltip: 'Information',
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (_) => AlertDialog(
+                          title: Text('How to use the chart'),
+                          content: Text('Select a filter:\n' +
+                              "Day: Will return your heart rate in every hour \n" +
+                              "Week: Will return your resting heart rate in last seven day\n" +
+                              "Hour: Press the Day button, select a number and press the hour glass button and will return your heart rate in the selected hour"),
+                        ));
+              },
+            ),
+        ],
       ),
       drawer: MainDrawer(),
       body: _pages[_selectedPageIndex]['page'],

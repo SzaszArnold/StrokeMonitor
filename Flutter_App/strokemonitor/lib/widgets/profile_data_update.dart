@@ -12,6 +12,10 @@ class ProfileDataUpdate extends StatefulWidget {
 
 class _ProfileDataUpdateState extends State<ProfileDataUpdate> {
   final _auth = FirebaseAuth.instance;
+  String _height;
+  String _weight;
+  String _birthday;
+  String _gender;
   File imageFile;
   _getFromGallery() async {
     PickedFile pickedFile = await ImagePicker().getImage(
@@ -39,13 +43,26 @@ class _ProfileDataUpdateState extends State<ProfileDataUpdate> {
     }
   }
 
-  Future _trySave() async {
+  Future _trySavePic() async {
     FirebaseFirestore.instance
         .collection('userImg')
         .doc(_auth.currentUser.email
             .substring(0, _auth.currentUser.email.lastIndexOf('@')))
         .set({
       'img': imageFile.path,
+    });
+  }
+
+  Future _trySaveData() async {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(_auth.currentUser.email
+            .substring(0, _auth.currentUser.email.lastIndexOf('@')))
+        .set({
+      'birthday': _birthday,
+      'gender': _gender,
+      'height': _height,
+      'weight': _weight,
     });
   }
 
@@ -73,6 +90,10 @@ class _ProfileDataUpdateState extends State<ProfileDataUpdate> {
                         );
                       }
                       final documents = snapshot.data;
+                      _birthday = documents['birthday'];
+                      _gender = documents['gender'];
+                      _height = documents['height'];
+                      _weight = documents['weight'];
                       return Column(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
@@ -133,35 +154,47 @@ class _ProfileDataUpdateState extends State<ProfileDataUpdate> {
                               ],
                             ),
                           ),
-                          ListTile(
-                            leading: Icon(
-                              Icons.height,
-                              size: 26,
-                              color: Color.fromRGBO(153, 42, 35, 1.0),
-                            ),
-                            title: Text(
-                              'Height: ${documents['height']}',
-                              style: TextStyle(
+                          TextFormField(
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Weight must be a value!';
+                              }
+                              return null;
+                            },
+                            initialValue: _weight,
+                            decoration: InputDecoration(
+                              labelText: 'Weight:',
+                              labelStyle: TextStyle(
                                 fontSize: 28,
                                 color: Theme.of(context).primaryColor,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
+                            obscureText: false,
+                            onChanged: (value) {
+                              _weight = value;
+                            },
                           ),
-                          ListTile(
-                            leading: Icon(
-                              Icons.line_weight,
-                              size: 26,
-                              color: Color.fromRGBO(153, 42, 35, 1.0),
-                            ),
-                            title: Text(
-                              'Weight: ${documents['weight']}',
-                              style: TextStyle(
+                          TextFormField(
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Height must be a value!';
+                              }
+                              return null;
+                            },
+                            initialValue: _height,
+                            decoration: InputDecoration(
+                              labelText: 'Height:',
+                              labelStyle: TextStyle(
                                 fontSize: 28,
                                 color: Theme.of(context).primaryColor,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
+                            obscureText: false,
+                            onChanged: (value) {
+                              _height = value;
+                            },
                           ),
                           TextButton(
                               style: ButtonStyle(
@@ -169,7 +202,11 @@ class _ProfileDataUpdateState extends State<ProfileDataUpdate> {
                                     MaterialStateProperty.all<Color>(
                                         Theme.of(context).primaryColor),
                               ),
-                              onPressed: _trySave,
+                              onPressed: () {
+                                print('Height: $_height');
+                                _trySavePic();
+                                _trySaveData();
+                              },
                               child: Icon(Icons.save))
                         ],
                       );

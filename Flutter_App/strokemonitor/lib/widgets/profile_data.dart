@@ -101,29 +101,41 @@ class _ProfileDataState extends State<ProfileData> {
                               ),
                             ),
                           ),
-                          ListTile(
-                            leading: Icon(
-                              Icons.height,
-                              size: 26,
-                              color: Color.fromRGBO(153, 42, 35, 1.0),
-                            ),
-                            title: Text(
-                              'Height: ${documents['height']}',
-                              style: TextStyle(
-                                fontSize: 28,
-                                color: Theme.of(context).primaryColor,
-                                fontWeight: FontWeight.bold,
-                              ),
+                          Container(
+                            alignment: Alignment.center,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Height: ${documents['height']}',
+                                  style: TextStyle(
+                                    fontSize: 28,
+                                    color: Theme.of(context).primaryColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  'Weight: ${documents['weight']}',
+                                  style: TextStyle(
+                                    fontSize: 28,
+                                    color: Theme.of(context).primaryColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                           ListTile(
                             leading: Icon(
-                              Icons.line_weight,
+                              Icons.cancel_schedule_send_sharp,
                               size: 26,
                               color: Color.fromRGBO(153, 42, 35, 1.0),
                             ),
                             title: Text(
-                              'Weight: ${documents['weight']}',
+                              'BMI: ${(int.parse(documents['height']) / int.parse(documents['weight'])).toStringAsFixed(2)}',
                               style: TextStyle(
                                 fontSize: 28,
                                 color: Theme.of(context).primaryColor,
