@@ -21,6 +21,7 @@ class _AuthScreenState extends State<AuthScreen> {
     String height,
     String weight,
     bool isLogin,
+    bool terms,
   ) async {
     UserCredential authResult;
     try {
@@ -40,16 +41,6 @@ class _AuthScreenState extends State<AuthScreen> {
       }
 
       FirebaseFirestore.instance
-          .collection('users')
-          .doc(_auth.currentUser.email
-              .substring(0, _auth.currentUser.email.lastIndexOf('@')))
-          .set({
-        'birthday': DateFormat.yMd().format(birthday),
-        'gender': gender,
-        'height': height,
-        'weight': weight,
-      });
-      FirebaseFirestore.instance
           .collection('risk')
           .doc(_auth.currentUser.email
               .substring(0, _auth.currentUser.email.lastIndexOf('@')))
@@ -63,7 +54,7 @@ class _AuthScreenState extends State<AuthScreen> {
               .substring(0, _auth.currentUser.email.lastIndexOf('@')))
           .set({
         'name': "Ambulance",
-        'phone': 112,
+        'phone': '112',
       });
     } on PlatformException catch (err) {
       var message = 'An error occured, please check your credentials!';

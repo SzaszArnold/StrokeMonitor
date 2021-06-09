@@ -96,7 +96,7 @@ class _ChartState extends State<Chart> {
     typeHour = "hour";
 
     final response = await http.get(
-      'https://api.fitbit.com/1/user/-/activities/heart/date/today/today/5min.json',
+      'https://api.fitbit.com/1/user/-/activities/heart/date/today/today/1min.json',
       headers: {HttpHeaders.authorizationHeader: _token},
     );
     if (response.statusCode == 200) {
@@ -299,7 +299,7 @@ class _ChartState extends State<Chart> {
                                           height: 5,
                                           width: 5,
                                           shape: DataMarkerType.circle,
-                                          borderWidth: 3,
+                                          borderWidth: 2,
                                           borderColor:
                                               Theme.of(context).primaryColor),
                                       dataSource: fitbitData,

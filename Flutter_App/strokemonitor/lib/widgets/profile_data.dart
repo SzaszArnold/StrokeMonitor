@@ -130,7 +130,7 @@ class _ProfileDataState extends State<ProfileData> {
                           ),
                           ListTile(
                             leading: Icon(
-                              Icons.cancel_schedule_send_sharp,
+                              Icons.fitness_center,
                               size: 26,
                               color: Color.fromRGBO(153, 42, 35, 1.0),
                             ),

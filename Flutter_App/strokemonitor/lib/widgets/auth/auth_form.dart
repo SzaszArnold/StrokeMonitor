@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AuthForm extends StatefulWidget {
   AuthForm(this.submitFunction, this.isLoading);
@@ -12,6 +13,7 @@ class AuthForm extends StatefulWidget {
     String height,
     String weight,
     bool isLogin,
+    bool terms,
   ) submitFunction;
 
   @override
@@ -27,6 +29,7 @@ class _AuthFormState extends State<AuthForm> {
   String _userGender = '';
   String _userHeight = '';
   String _userWeight = '';
+  bool _terms = false;
   String select;
   final List<String> genderList = ["Male", "Female"];
   Map<int, String> mappedGender = ["Male", "Female"].asMap();
@@ -43,6 +46,7 @@ class _AuthFormState extends State<AuthForm> {
         _userHeight,
         _userWeight,
         _isLogin,
+        _terms,
       );
     }
   }
@@ -211,9 +215,41 @@ class _AuthFormState extends State<AuthForm> {
                                   child: Icon(
                                     Icons.calendar_today,
                                     color: Theme.of(context).primaryColor,
-                                  ))
+                                  )),
                             ],
                           ),
+                        ),
+                        CheckboxListTile(
+                          title: Column(
+                            children: [
+                              Text('I have read and agree to the'),
+                              TextButton(
+                                child: Text('Terms and conditions'),
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (_) => AlertDialog(
+                                      title: Text('Terms and conditions'),
+                                      content: InkWell(
+                                        child:
+                                            Text('Open Terms and conditions'),
+                                        onTap: () => launch(
+                                            'https://github.com/SzaszArnold/StrokeMonitor/blob/master/Flutter_App/strokemonitor/Terms.md'),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                          checkColor: Colors.greenAccent,
+                          activeColor: Theme.of(context).primaryColor,
+                          value: this._terms,
+                          onChanged: (bool value) {
+                            setState(() {
+                              this._terms = value;
+                            });
+                          },
                         ),
                       ],
                     ),

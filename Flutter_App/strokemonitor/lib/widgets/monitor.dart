@@ -6,6 +6,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'dart:async';
 import 'package:sms/sms.dart';
+import 'package:flutter/services.dart';
 
 class Monitor extends StatefulWidget {
   @override
@@ -13,7 +14,7 @@ class Monitor extends StatefulWidget {
 }
 
 class _MonitorState extends State<Monitor> {
-  String currentPhone = "Not yet!";
+  String currentPhone = "0749091739";
   String value = "no";
   bool timerFlag = true;
   bool sentSMS;
@@ -91,6 +92,7 @@ class _MonitorState extends State<Monitor> {
                 },
               );
               if (int.parse(value) >= 140) {
+                HapticFeedback.heavyImpact();
                 print(currentPhone);
                 timerFlag = false;
                 // _sendSMS(currentPhone);
