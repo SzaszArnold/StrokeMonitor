@@ -13,10 +13,14 @@
       "access_internet",
       "access_user_profile",
       "run_background",
-      "access_activity"
+      "access_activity",
+      "access_exercise"
     ],
     "buildTargets": [
-      "gemini"
+      "gemini",
+      "meson",
+      "mira",
+      "higgs"
     ],
     "i18n": {
       "en-US": {

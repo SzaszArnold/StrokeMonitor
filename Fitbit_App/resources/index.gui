@@ -1,6 +1,5 @@
 <svg class="background">
   <use id="myAnimation" href="#frames" />
- <!--<image id="stroke" width="100%" height="100%" href="strok22.png" />--> 
   <div id="center">
   <text id="timeLabel" />
   <text id="dateLabel" />
