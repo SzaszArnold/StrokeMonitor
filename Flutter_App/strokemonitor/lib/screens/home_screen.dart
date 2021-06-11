@@ -80,21 +80,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    startServiceInPlatform();
+    // startServiceInPlatform();
     print(position);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          /* Center(
-            child: FloatingActionButton(
-              key: Key('start'),
-              child: Text("Start Background"),
-              onPressed: () {
-                startServiceInPlatform();
-              },
-            ),
-          ),*/
           Monitor(),
           Center(
             child: SingleChildScrollView(

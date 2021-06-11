@@ -1,9 +1,13 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:flutter_background_service/flutter_background_service.dart';
+import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:async';
 import 'package:sms/sms.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +22,8 @@ class _MonitorState extends State<Monitor> {
   String value = "no";
   bool timerFlag = true;
   bool sentSMS;
+  String _token = "";
+  String _uid = "";
   final _auth = FirebaseAuth.instance;
   final databaseReference = FirebaseDatabase.instance.reference();
   Future<String> _future;
@@ -27,6 +33,32 @@ class _MonitorState extends State<Monitor> {
     if (timerFlag) {
       setUpTimedFetch();
     }
+  }
+
+  Future _loadToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _token = (prefs.getString('token') ?? "");
+    });
+  }
+
+  void _nullToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.setString('token', "");
+  }
+
+  Future _loadUID() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _uid = (prefs.getString('uid') ?? "");
+    });
+  }
+
+  void _nullUID() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.setString('uid', "");
   }
 
   Future _sendSMS(String address) async {
@@ -56,10 +88,73 @@ class _MonitorState extends State<Monitor> {
     });
   }
 
+  Future _getUserUID() async {
+    await _loadToken();
+    await _loadUID();
+    if (_uid == '') {
+      final response = await http.get(
+        'https://api.fitbit.com/1/user/-/profile.json',
+        headers: {HttpHeaders.authorizationHeader: _token},
+      );
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body) as Map<String, dynamic>;
+        print(jsonResponse['user']['encodedId']);
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('uid', "${jsonResponse['user']['encodedId']}");
+      } else {
+        if (response.statusCode == 401) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Authorization required!')));
+          _nullToken();
+          _nullUID();
+        }
+        print('Request failed with status: ${response.statusCode}.');
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    _getUserUID();
     return Column(
       children: [
+        StreamBuilder<Map<String, dynamic>>(
+            stream: FlutterBackgroundService().onDataReceived,
+            builder: (context, snapshot) {
+              return FutureBuilder<String>(
+                future: _future,
+                builder: (context, snapshot) {
+                  databaseReference.child('$_uid').once().then(
+                    (DataSnapshot snapshot) {
+                      String currentValue = snapshot.value['data'];
+                      print(currentValue);
+                      setState(
+                        () {
+                          value = '${snapshot.value['data']}';
+                        },
+                      );
+                    },
+                  );
+                  if (int.parse(value) >= 160) {
+                    HapticFeedback.heavyImpact();
+                    print(currentPhone);
+                    timerFlag = false;
+                    //_sendSMS(currentPhone);
+                    // FlutterPhoneDirectCaller.callNumber('$currentPhone');
+                    return Center(
+                      child: Column(
+                        children: [
+                          Icon(Icons.warning),
+                        ],
+                      ),
+                    );
+                  } else {
+                    timerFlag = true;
+                    return Text('');
+                  }
+                },
+              );
+            }),
         StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('usersContact')
@@ -77,38 +172,6 @@ class _MonitorState extends State<Monitor> {
             return Text('');
           },
         ),
-        FutureBuilder<String>(
-            future: _future,
-            builder: (context, snapshot) {
-              databaseReference.child('arnoldszasz06').once().then(
-                (DataSnapshot snapshot) {
-                  String currentValue = snapshot.value['data'];
-                  print(currentValue);
-                  setState(
-                    () {
-                      value = '${snapshot.value['data']}';
-                    },
-                  );
-                },
-              );
-              if (int.parse(value) >= 140) {
-                HapticFeedback.heavyImpact();
-                print(currentPhone);
-                timerFlag = false;
-                // _sendSMS(currentPhone);
-                // FlutterPhoneDirectCaller.callNumber('$currentPhone');
-                return Center(
-                  child: Column(
-                    children: [
-                      Icon(Icons.warning),
-                    ],
-                  ),
-                );
-              } else {
-                timerFlag = true;
-                return Text('');
-              }
-            }),
       ],
     );
   }

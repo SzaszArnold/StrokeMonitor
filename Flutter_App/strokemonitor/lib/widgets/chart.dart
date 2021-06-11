@@ -26,7 +26,7 @@ class _ChartState extends State<Chart> {
   String _token = '';
   String typeDay = 'day';
   String typeHour = 'day';
-  int _currentValue = 3;
+  int _currentValue = 0;
   Future authenticate() async {
     await _loadToken();
     if (_token == '') {
@@ -94,7 +94,6 @@ class _ChartState extends State<Chart> {
 
   Future _getFitbitHour() async {
     typeHour = "hour";
-
     final response = await http.get(
       'https://api.fitbit.com/1/user/-/activities/heart/date/today/today/1min.json',
       headers: {HttpHeaders.authorizationHeader: _token},
