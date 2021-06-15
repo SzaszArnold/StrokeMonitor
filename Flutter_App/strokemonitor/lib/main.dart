@@ -43,7 +43,7 @@ void onStart() {
     );
 
     service.sendData(
-      {"current_date": DateTime.now().toIso8601String()},
+      {"data": DateTime.now().toString()},
     );
   });
 }
