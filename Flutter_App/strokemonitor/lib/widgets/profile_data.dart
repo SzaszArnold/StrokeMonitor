@@ -134,13 +134,36 @@ class _ProfileDataState extends State<ProfileData> {
                               size: 26,
                               color: Color.fromRGBO(153, 42, 35, 1.0),
                             ),
-                            title: Text(
-                              'BMI: ${(int.parse(documents['height']) / int.parse(documents['weight'])).toStringAsFixed(2)}',
-                              style: TextStyle(
-                                fontSize: 28,
-                                color: Theme.of(context).primaryColor,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            title: Row(
+                              children: [
+                                Text(
+                                  'BMI: ${(int.parse(documents['height']) / int.parse(documents['weight']) * 10).toStringAsFixed(2)}',
+                                  style: TextStyle(
+                                    fontSize: 28,
+                                    color: Theme.of(context).primaryColor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.help_outline_outlined,
+                                    size: 26,
+                                    color: Color.fromRGBO(153, 42, 35, 1.0),
+                                  ),
+                                  onPressed: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (_) => AlertDialog(
+                                              title: Text('BMI Value'),
+                                              content: Text(
+                                                  'Below 18.5 --- Underweight\n' +
+                                                      "18.5 - 24.9 --- Normal \n" +
+                                                      "25.0 - 29.0 --- Owerweight\n" +
+                                                      "30.0 and Above --- Obese"),
+                                            ));
+                                  },
+                                )
+                              ],
                             ),
                           ),
                         ],

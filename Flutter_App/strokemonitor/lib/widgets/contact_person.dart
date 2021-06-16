@@ -55,9 +55,13 @@ class _ContactPersonState extends State<ContactPerson> {
     }
   }
 
-  void _incrementCounter(String address) {
+  void _sendSMS(String address) {
     SmsSender sender = SmsSender();
-    SmsMessage message = SmsMessage(address, 'I am in danger, help me!');
+    SmsMessage message = SmsMessage(
+        address,
+        'Hello I am ${_auth.currentUser.email}.\n' +
+            'I add you to a monitoring app, named StrokeMonitor\n' +
+            'If you get an allert, please call the ambulance!');
     message.onStateChanged.listen((state) {
       if (state == SmsMessageState.Sent) {
         print("SMS is sent!");
@@ -159,15 +163,29 @@ class _ContactPersonState extends State<ContactPerson> {
                         return Container(
                           child: Column(
                             children: [
-                              Center(
-                                child: FlatButton(
-                                  child: Text('Phone Call'), // 0741903889
-                                  onPressed: () {
-                                    _incrementCounter(documents['phone']);
-                                    /*    FlutterPhoneDirectCaller.callNumber(
-                                        '${documents['phone']}');*/
-                                  },
+                              TextButton(
+                                style: ButtonStyle(
+                                  foregroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Theme.of(context).primaryColor),
                                 ),
+                                child: Text('Call the contact person!'),
+                                onPressed: () {
+                                  FlutterPhoneDirectCaller.callNumber(
+                                      '${documents['phone']}');
+                                },
+                              ),
+                              TextButton(
+                                style: ButtonStyle(
+                                  foregroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Theme.of(context).primaryColor),
+                                ),
+                                child: Text(
+                                    'Notify the contact person! with message'),
+                                onPressed: () {
+                                  _sendSMS('${documents['phone']}');
+                                },
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,

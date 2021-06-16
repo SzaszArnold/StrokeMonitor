@@ -119,42 +119,37 @@ class _MonitorState extends State<Monitor> {
     return Column(
       children: [
         StreamBuilder<Map<String, dynamic>>(
-            stream: FlutterBackgroundService().onDataReceived,
-            builder: (context, snapshot) {
-              return FutureBuilder<String>(
-                future: _future,
-                builder: (context, snapshot) {
-                  databaseReference.child('$_uid').once().then(
-                    (DataSnapshot snapshot) {
-                      String currentValue = snapshot.value['data'];
-                      print(currentValue);
-                      setState(
-                        () {
-                          value = '${snapshot.value['data']}';
-                        },
+          stream: FlutterBackgroundService().onDataReceived,
+          builder: (context, snapshot) {
+            return FutureBuilder<String>(
+              future: _future,
+              builder: (context, snapshot) {
+                databaseReference.child('$_uid').once().then(
+                  (DataSnapshot snapshot) {
+                    String currentValue = snapshot.value['data'];
+                    print(currentValue);
+                    if (int.parse(currentValue) >= 160) {
+                      HapticFeedback.heavyImpact();
+                      print(currentPhone);
+                      timerFlag = false;
+                      print('send sms');
+                      //_sendSMS(currentPhone);
+                      // FlutterPhoneDirectCaller.callNumber('$currentPhone');
+                      return Center(
+                        child: Column(
+                          children: [
+                            Icon(Icons.warning),
+                          ],
+                        ),
                       );
-                    },
-                  );
-                  if (int.parse(value) >= 160) {
-                    HapticFeedback.heavyImpact();
-                    print(currentPhone);
-                    timerFlag = false;
-                    //_sendSMS(currentPhone);
-                    // FlutterPhoneDirectCaller.callNumber('$currentPhone');
-                    return Center(
-                      child: Column(
-                        children: [
-                          Icon(Icons.warning),
-                        ],
-                      ),
-                    );
-                  } else {
-                    timerFlag = true;
-                    return Text('');
-                  }
-                },
-              );
-            }),
+                    }
+                  },
+                );
+                return Text('');
+              },
+            );
+          },
+        ),
         StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection('usersContact')
