@@ -17,6 +17,13 @@ class ContactPerson extends StatefulWidget {
   _ContactPersonState createState() => _ContactPersonState();
 }
 
+/*Based on the documentation at the link: https://flutter.dev/docs/development/ui/widgets/material
+                                          https://pub.dev/packages/http
+                                          https://firebase.flutter.dev/docs/firestore/usage
+                                          https://pub.dev/packages/sms
+                                          https://pub.dev/packages/flutter_phone_direct_caller
+                                          https://firebase.flutter.dev/docs/auth/usage/
+*/
 class _ContactPersonState extends State<ContactPerson> {
   final _formKey = GlobalKey<FormState>();
   String _name = "999";
@@ -72,16 +79,6 @@ class _ContactPersonState extends State<ContactPerson> {
     sender.sendSms(message);
   }
 
-/*
-  AudioPlayer audioPlayer = AudioPlayer();
-  play() async {
-    int result = await audioPlayer.play(
-        'https://media.geeksforgeeks.org/wp-content/uploads/20190531135120/beep.mp3');
-    if (result == 1) {
-      // success
-    }
-  }*/
-
   Future<String> _future;
   @override
   void initState() {
@@ -124,27 +121,6 @@ class _ContactPersonState extends State<ContactPerson> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  /*  FutureBuilder<String>(
-                    future: _future,
-                    builder: (context, snapshot) {
-                      databaseReference.child('arnoldszasz06data').once().then(
-                        (DataSnapshot snapshot) {
-                          String currentValue = snapshot.value['arni'];
-                          print(currentValue);
-                          // play();
-                          /*setState(
-                            () {
-                              value = '${snapshot.value['arni']}';
-                            },
-                          );*/
-                        },
-                      );
-
-                      return Center(
-                        child: Text('${value}'),
-                      );
-                    },
-                  ),*/
                   StreamBuilder(
                       stream: FirebaseFirestore.instance
                           .collection('usersContact')

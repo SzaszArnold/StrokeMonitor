@@ -1,6 +1,10 @@
 import * as messaging from "messaging";
 import { settingsStorage } from "settings";
 var id = 'invalid';
+/*Based on the documentation at the link: https://dev.fitbit.com/build/reference/companion-api/settings/
+                                          https://dev.fitbit.com/build/reference/companion-api/fetch/
+                                          https://dev.fitbit.com/build/reference/companion-api/messaging/
+*/
 settingsStorage.onchange = evt => {
     if (evt.key === "oauth") {
         let data = JSON.parse(evt.newValue);

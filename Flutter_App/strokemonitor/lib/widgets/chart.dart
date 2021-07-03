@@ -3,7 +3,6 @@ import 'package:bezier_chart/bezier_chart.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:strokemonitor/models/fitbit_day_model.dart';
-import 'package:strokemonitor/models/sample_data.dart';
 import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,8 +11,6 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-final _databaseReference = FirebaseDatabase.instance.reference();
-List<SampleData> list = [];
 const List<DataPoint<dynamic>> data = [];
 
 class Chart extends StatefulWidget {
@@ -21,6 +18,16 @@ class Chart extends StatefulWidget {
   _ChartState createState() => _ChartState();
 }
 
+/*Based on the documentation at the link: https://flutter.dev/docs/development/ui/widgets/material
+                                          https://pub.dev/packages/http
+                                          https://pub.dev/packages/shared_preferences
+                                          https://dev.fitbit.com/build/reference/web-api/oauth2/
+                                          https://dev.fitbit.com/build/reference/web-api/heart-rate/
+                                          https://dev.fitbit.com/build/reference/web-api/user/
+                                          https://pub.dev/packages/syncfusion_flutter_charts
+                                          https://pub.dev/packages/flutter_web_auth
+                                          https://pub.dev/packages/numberpicker
+*/
 class _ChartState extends State<Chart> {
   String _status = '';
   String _token = '';
@@ -157,19 +164,6 @@ class _ChartState extends State<Chart> {
     }
   }
 
-  void readData() {
-    _databaseReference
-        .child('arnoldszasz06data')
-        .once()
-        .then((DataSnapshot snapshot) {
-      for (var value in snapshot.value.values) {
-        if (value['value'] != null) {
-          list.add(SampleData(value: double.tryParse(value['value'])));
-        }
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     authenticate();
@@ -198,37 +192,6 @@ class _ChartState extends State<Chart> {
                   SizedBox(
                     width: 5,
                   ),
-                  /* DropdownButton<String>(
-                    value: dropdownValue,
-                    icon: Icon(Icons.arrow_downward),
-                    iconSize: 24,
-                    elevation: 16,
-                    style: TextStyle(color: Colors.deepPurple),
-                    underline: Container(
-                      height: 2,
-                      color: Colors.deepPurpleAccent,
-                    ),
-                    onChanged: (String newValue) {
-                      setState(() {
-                        dropdownValue = newValue;
-                        //for (var value in list) print('${value.value}');
-                      });
-                    },
-                    items: <String>['Day', 'Week']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(
-                          value,
-                          style: TextStyle(
-                            fontSize: 28,
-                            color: Theme.of(context).primaryColor,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),*/
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       primary: Theme.of(context).primaryColor,

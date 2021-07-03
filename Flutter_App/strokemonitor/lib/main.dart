@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
@@ -11,11 +10,13 @@ import 'package:strokemonitor/screens/profile_data_update_screen.dart';
 import 'package:strokemonitor/screens/stroke_risk_screen.dart';
 import 'package:strokemonitor/screens/profile_data_screen.dart';
 import 'package:flutter/services.dart';
-import 'dart:io';
 
-import 'package:strokemonitor/widgets/contact_person.dart';
-import 'package:strokemonitor/widgets/profile_data_update.dart';
-
+/*Based on the documentation at the link: https://flutter.dev/docs/development/ui/widgets/material
+                                          https://firebase.flutter.dev/docs/auth/usage/
+                                          https://flutter.dev/docs/cookbook/design/drawer
+                                          https://pub.dev/packages/flutter_background_service/example
+                                          https://flutter.dev/docs/cookbook/navigation/named-routes
+*/
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

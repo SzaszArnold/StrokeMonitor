@@ -17,6 +17,15 @@ class Monitor extends StatefulWidget {
   _MonitorState createState() => _MonitorState();
 }
 
+/*Based on the documentation at the link: https://flutter.dev/docs/development/ui/widgets/material
+                                          https://pub.dev/packages/http
+                                          https://firebase.flutter.dev/docs/firestore/usage
+                                          https://pub.dev/packages/sms
+                                          https://pub.dev/packages/flutter_phone_direct_caller
+                                          https://firebase.flutter.dev/docs/auth/usage/
+                                          https://pub.dev/packages/flutter_background_service
+                                          https://pub.dev/packages/shared_preferences
+*/
 class _MonitorState extends State<Monitor> {
   String currentPhone = "0749091739";
   String value = "no";
@@ -103,8 +112,6 @@ class _MonitorState extends State<Monitor> {
         prefs.setString('uid', "${jsonResponse['user']['encodedId']}");
       } else {
         if (response.statusCode == 401) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Authorization required!')));
           _nullToken();
           _nullUID();
         }

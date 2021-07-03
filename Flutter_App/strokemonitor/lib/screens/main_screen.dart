@@ -32,6 +32,9 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+/*Based on the documentation at the link: https://api.flutter.dev/flutter/material/BottomNavigationBar-class.html
+                                          https://api.flutter.dev/flutter/material/showDialog.html
+*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,17 +67,16 @@ class _MainScreenState extends State<MainScreen> {
         unselectedItemColor: Colors.white,
         selectedItemColor: Colors.black,
         currentIndex: _selectedPageIndex,
-        // type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
             backgroundColor: Theme.of(context).primaryColor,
             icon: Icon(Icons.home),
-            title: Text('Home'),
+            label: 'Home',
           ),
           BottomNavigationBarItem(
             backgroundColor: Theme.of(context).primaryColor,
             icon: Icon(Icons.bar_chart),
-            title: Text('Charts'),
+            label: 'Charts',
           ),
         ],
       ),

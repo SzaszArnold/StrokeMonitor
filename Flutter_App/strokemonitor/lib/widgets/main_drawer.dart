@@ -1,6 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+/*Based on the documentation at the link: https://flutter.dev/docs/development/ui/widgets/material
+                                          https://firebase.flutter.dev/docs/auth/usage/
+                                          https://flutter.dev/docs/cookbook/design/drawer
+*/
+
 class MainDrawer extends StatelessWidget {
   Widget buildListTile(String title, IconData icon, Function tapHandler) {
     return ListTile(

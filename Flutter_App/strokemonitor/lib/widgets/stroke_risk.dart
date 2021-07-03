@@ -7,6 +7,11 @@ class StrokeRisk extends StatefulWidget {
   _StrokeRiskState createState() => _StrokeRiskState();
 }
 
+/*Based on the documentation at the link: https://flutter.dev/docs/development/ui/widgets/material
+                                          https://firebase.flutter.dev/docs/firestore/usage
+                                          https://firebase.flutter.dev/docs/auth/usage/
+                                          https://pub.dev/packages/image_picker
+*/
 class _StrokeRiskState extends State<StrokeRisk> {
   final _auth = FirebaseAuth.instance;
   Map<int, String> mappedAge = {0: "<65", 1: "65-75", 2: ">75"};
@@ -19,6 +24,7 @@ class _StrokeRiskState extends State<StrokeRisk> {
   int ageScore = 0;
   int genderScore = 0;
   int riskScore = 0;
+  /* Scores, and questions based at link: https://www.msdmanuals.com/professional/cardiovascular-disorders/arrhythmias-and-conduction-disorders/atrial-fibrillation*/
   void _trySubmit() async {
     var totalScore = 0;
     totalScore = ageScore + genderScore + riskScore;

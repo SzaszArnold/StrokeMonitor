@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
@@ -10,6 +9,11 @@ class ProfileDataUpdate extends StatefulWidget {
   _ProfileDataUpdateState createState() => _ProfileDataUpdateState();
 }
 
+/*Based on the documentation at the link: https://flutter.dev/docs/development/ui/widgets/material
+                                          https://firebase.flutter.dev/docs/firestore/usage
+                                          https://firebase.flutter.dev/docs/auth/usage/
+                                          https://pub.dev/packages/image_picker
+*/
 class _ProfileDataUpdateState extends State<ProfileDataUpdate> {
   final _auth = FirebaseAuth.instance;
   String _height;

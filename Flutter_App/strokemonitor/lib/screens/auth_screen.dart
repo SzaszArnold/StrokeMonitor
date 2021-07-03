@@ -13,6 +13,10 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   final _auth = FirebaseAuth.instance;
   var _isLoading = false;
+  /*Based on the documentation at the link: https://firebase.flutter.dev/docs/auth/usage
+                                            https://firebase.flutter.dev/docs/firestore/usage
+                                            https://flutter.dev/docs/development/ui/widgets/material
+   */
   void _submitAuthForm(
     String email,
     String password,

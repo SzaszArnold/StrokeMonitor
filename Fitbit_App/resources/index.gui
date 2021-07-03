@@ -1,10 +1,10 @@
 <svg class="background">
-  <use id="myAnimation" href="#frames" />
-  <div id="center">
-  <text id="timeLabel" />
-  <text id="dateLabel" />
-  <text id="accuLabel" />
-  <text id="stepsLabel" />
-  <text id="heartRateLabel" />
-  </div>
+    <use id="backgroundAnimation" href="#frames" />
+    <div id="center">
+        <text id="timeLabel" />
+        <text id="dateLabel" />
+        <text id="accuLabel" />
+        <text id="stepsLabel" />
+        <text id="heartRateLabel" />
+    </div>
 </svg>

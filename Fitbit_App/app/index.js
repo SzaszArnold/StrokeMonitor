@@ -4,19 +4,23 @@ import { preferences } from "user-settings";
 import * as util from "../common/utils";
 import { HeartRateSensor } from "heart-rate";
 import { me as appbit } from "appbit";
-import { display } from "display";
 import * as messaging from "messaging";
 import { user } from "user-profile";
 import { battery } from "power";
 import { today } from 'user-activity';
 import { me as device } from "device";
+import { vibration } from "haptics";
 import exercise from "exercise";
+/*Based on the documentation at the link: https://dev.fitbit.com/build/reference/device-api/heart-rate/
+                                          https://dev.fitbit.com/build/reference/device-api/clock/
+                                          https://dev.fitbit.com/build/reference/device-api/exercise/
+                                          https://dev.fitbit.com/build/reference/device-api/messaging/
+                                          https://dev.fitbit.com/build/reference/device-api/power/
+*/
 const modelID = device.modelId;
 const SETTINGS_TYPE = "cbor";
 const SETTINGS_FILE = "settings.cbor";
-
 let settings = loadSettings();
-// Get a handle on the <text> element
 const timeLabel = document.getElementById("timeLabel");
 const dateLabel = document.getElementById("dateLabel");
 const heartRateLabel = document.getElementById("heartRateLabel");
@@ -26,7 +30,6 @@ stepsCounter.text = "Steps: " + today.adjusted.steps;
 accuLevel.text = "\u26A1 " + Math.floor(battery.chargeLevel) + "%";
 console.log((user.maxHeartRate || "Unknown") + " BPM");
 clock.granularity = "minutes";
-// Update the <text> element every tick with the current time
 clock.ontick = (evt) => {
     let today = evt.date;
     let hours = today.getHours();
@@ -50,26 +53,18 @@ clock.ontick = (evt) => {
     setDateDisplay(dateLabel, day, month, year, settings.USDateFormat);
 }
 
-    if (HeartRateSensor && appbit.permissions.granted("access_heart_rate")) {
-        const hrm = new HeartRateSensor();
-        hrm.addEventListener("reading", () => {
-            heartRateLabel.text = "\u2665 " + `${hrm.heartRate}`;
-          if(hrm.heartRate!=null && exercise.state=="stopped"){
+if (HeartRateSensor && appbit.permissions.granted("access_heart_rate")) {
+    const hrm = new HeartRateSensor();
+    hrm.addEventListener("reading", () => {
+        heartRateLabel.text = "\u2665 " + `${hrm.heartRate}`;
+        if (hrm.heartRate != null && exercise.state == "stopped") {
             sendMessage(hrm.heartRate);
-          }
-        });
-          /*    display.addEventListener("change", () => {
-            // Automatically stop the sensor when the screen is off to conserve battery
-            if (display.on) {
-                hrm.start();
-
-            }
-            else {
-                hrm.stop();
-            }
-        });*/
-        hrm.start();
-    }
+            if (hrm.heartRate >= 160) { vibration.start("alert"); }
+            else { vibration.stop(); }
+        }
+    });
+    hrm.start();
+}
 function setDateDisplay(obj, d, m, y, format) {
 
     let date;
@@ -86,12 +81,10 @@ function setDateDisplay(obj, d, m, y, format) {
 
 messaging.peerSocket.onmessage = evt => {
     const dateLabel = document.getElementById("dateLabel");
-
     let t = new Date();
     let d = util.zeroPad(t.getDate());
     let m = util.zeroPad(t.getMonth() + 1);
     let y = t.getFullYear();
-
     setDateDisplay(dateLabel, d, m, y, evt.data);
 }
 
@@ -128,6 +121,6 @@ function sendMessage(data) {
     }
 }
 
-const myAnimation = document.getElementById("myAnimation");
+const backgroundAnimation = document.getElementById("backgroundAnimation");
 
-myAnimation.animate("enable");
+backgroundAnimation.animate("enable");

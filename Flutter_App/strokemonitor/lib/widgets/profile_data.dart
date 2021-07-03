@@ -9,6 +9,10 @@ class ProfileData extends StatefulWidget {
   _ProfileDataState createState() => _ProfileDataState();
 }
 
+/*Based on the documentation at the link: https://flutter.dev/docs/development/ui/widgets/material
+                                          https://firebase.flutter.dev/docs/firestore/usage
+                                          https://firebase.flutter.dev/docs/auth/usage/
+*/
 class _ProfileDataState extends State<ProfileData> {
   final _auth = FirebaseAuth.instance;
 

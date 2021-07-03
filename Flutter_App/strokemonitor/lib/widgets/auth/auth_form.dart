@@ -20,6 +20,9 @@ class AuthForm extends StatefulWidget {
   _AuthFormState createState() => _AuthFormState();
 }
 
+/*Based on the documentation at the link: https://flutter.dev/docs/development/ui/widgets/material
+                                          https://api.flutter.dev/flutter/material/showDatePicker.html
+*/
 class _AuthFormState extends State<AuthForm> {
   final _formKey = GlobalKey<FormState>();
   var _isLogin = true;
@@ -266,7 +269,6 @@ class _AuthFormState extends State<AuthForm> {
                       onPressed: _trySubmit,
                     ),
                   if (!widget.isLoading)
-                    // ignore: deprecated_member_use
                     TextButton(
                       style: ButtonStyle(
                         foregroundColor: MaterialStateProperty.all<Color>(

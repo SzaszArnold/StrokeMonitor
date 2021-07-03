@@ -7,6 +7,7 @@ class ProfileDataScreen extends StatefulWidget {
   _ProfileDataScreenState createState() => _ProfileDataScreenState();
 }
 
+/*Based on the documentation at the link: https://flutter.dev/docs/cookbook/navigation/named-routes */
 class _ProfileDataScreenState extends State<ProfileDataScreen> {
   @override
   Widget build(BuildContext context) {
