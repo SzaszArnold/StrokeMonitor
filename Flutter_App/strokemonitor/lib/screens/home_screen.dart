@@ -23,7 +23,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   int position = DateTime.now().weekday.toInt();
-
+  /*Based at the link: https://www.health.harvard.edu/womens-health/8-things-you-can-do-to-prevent-a-stroke?fbclid=IwAR3hdmPX4pxuQD3_5Zqy_ghrJ-xHFu_HcawvKunKEhEImcSXaLWH0Zsgf_E
+   */
   List<String> prevention = [
     "1. Lower blood pressure\n" +
         "High blood pressure is a huge factor, doubling or even quadrupling your stroke risk if it is not controlled. High blood pressure is the biggest contributor to the risk of stroke in both men and women. Monitoring blood pressure and, if it is elevated, treating it, is probably the biggest difference people can make to their vascular health.\n" +
