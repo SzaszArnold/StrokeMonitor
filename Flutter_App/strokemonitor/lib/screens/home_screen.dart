@@ -11,8 +11,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   String value = "no";
-  String _status = '';
-  String _token = '';
   final databaseReference = FirebaseDatabase.instance.reference();
   void startServiceInPlatform() async {
     if (Platform.isAndroid) {

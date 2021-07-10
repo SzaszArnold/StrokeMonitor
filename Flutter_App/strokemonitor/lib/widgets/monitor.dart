@@ -140,7 +140,7 @@ class _MonitorState extends State<Monitor> {
                       print(currentPhone);
                       timerFlag = false;
                       print('send sms');
-                      //_sendSMS(currentPhone);
+                      _sendSMS(currentPhone);
                       // FlutterPhoneDirectCaller.callNumber('$currentPhone');
                       return Center(
                         child: Column(

@@ -42,41 +42,40 @@ class _AuthScreenState extends State<AuthScreen> {
           email: email,
           password: password,
         );
+        FirebaseFirestore.instance
+            .collection('risk')
+            .doc(_auth.currentUser.email
+                .substring(0, _auth.currentUser.email.lastIndexOf('@')))
+            .set({
+          'percentage': "",
+          'score': 0,
+        });
+        FirebaseFirestore.instance
+            .collection('usersContact')
+            .doc(_auth.currentUser.email
+                .substring(0, _auth.currentUser.email.lastIndexOf('@')))
+            .set({
+          'name': "Ambulance",
+          'phone': '112',
+        });
+        FirebaseFirestore.instance
+            .collection('userImg')
+            .doc(_auth.currentUser.email
+                .substring(0, _auth.currentUser.email.lastIndexOf('@')))
+            .set({
+          'img': "",
+        });
+        FirebaseFirestore.instance
+            .collection('users')
+            .doc(_auth.currentUser.email
+                .substring(0, _auth.currentUser.email.lastIndexOf('@')))
+            .set({
+          'birthday': DateFormat.yMd().format(birthday),
+          'gender': gender,
+          'weight': weight,
+          'height': height,
+        });
       }
-
-      FirebaseFirestore.instance
-          .collection('risk')
-          .doc(_auth.currentUser.email
-              .substring(0, _auth.currentUser.email.lastIndexOf('@')))
-          .set({
-        'percentage': "",
-        'score': 0,
-      });
-      FirebaseFirestore.instance
-          .collection('usersContact')
-          .doc(_auth.currentUser.email
-              .substring(0, _auth.currentUser.email.lastIndexOf('@')))
-          .set({
-        'name': "Ambulance",
-        'phone': '112',
-      });
-      FirebaseFirestore.instance
-          .collection('userImg')
-          .doc(_auth.currentUser.email
-              .substring(0, _auth.currentUser.email.lastIndexOf('@')))
-          .set({
-        'img': "",
-      });
-      FirebaseFirestore.instance
-          .collection('users')
-          .doc(_auth.currentUser.email
-              .substring(0, _auth.currentUser.email.lastIndexOf('@')))
-          .set({
-        'birthday': DateFormat.yMd().format(birthday),
-        'gender': gender,
-        'weight': weight,
-        'height': height,
-      });
     } on PlatformException catch (err) {
       var message = 'An error occured, please check your credentials!';
       if (err.message != null) {

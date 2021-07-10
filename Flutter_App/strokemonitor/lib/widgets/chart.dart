@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:bezier_chart/bezier_chart.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:strokemonitor/models/fitbit_day_model.dart';
 import 'package:flutter_web_auth/flutter_web_auth.dart';
@@ -10,8 +8,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-
-const List<DataPoint<dynamic>> data = [];
 
 class Chart extends StatefulWidget {
   @override

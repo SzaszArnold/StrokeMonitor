@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:strokemonitor/widgets/main_drawer.dart';
 import 'package:strokemonitor/widgets/stroke_risk.dart';
 
 class StrokeRiskScreen extends StatefulWidget {

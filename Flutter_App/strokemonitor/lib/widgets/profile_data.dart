@@ -46,10 +46,22 @@ class _ProfileDataState extends State<ProfileData> {
                           Container(
                               width: 200,
                               height: 250,
-                              child: Image.file(
-                                File('${documents['img']}'),
-                                fit: BoxFit.fill,
-                              ),
+                              child: documents['img'].isEmpty
+                                  ? Container(
+                                      width: 200,
+                                      height: 200,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                            image: NetworkImage(
+                                                'https://www.kindpng.com/picc/m/78-785827_user-profile-avatar-login-account-male-user-icon.png'),
+                                            fit: BoxFit.fill),
+                                      ),
+                                    )
+                                  : Image.file(
+                                      File('${documents['img']}'),
+                                      fit: BoxFit.fill,
+                                    ),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                               )),
