@@ -99,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: EdgeInsets.all(5),
                 margin: EdgeInsets.all(20),
                 child: Text(
-                  prevention[position - 1],
+                  prevention[position],
                   key: Key('text'),
                 ),
               ),
